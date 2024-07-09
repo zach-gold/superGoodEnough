@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 0f587f9b199d
+Revision ID: 7d7a93a00222
 Revises: 
-Create Date: 2024-07-09 12:07:56.996488
+Create Date: 2024-07-09 13:06:39.000891
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0f587f9b199d'
+revision = '7d7a93a00222'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,7 +25,7 @@ def upgrade():
     sa.Column('hashed_password', sa.String(length=255), nullable=False),
     sa.Column('first_name', sa.String(length=25), nullable=True),
     sa.Column('last_name', sa.String(length=25), nullable=True),
-    sa.Column('bio', sa.Text(length=2000), nullable=True),
+    sa.Column('bio', sa.String(length=2000), nullable=True),
     sa.Column('profile_picture_url', sa.Text(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
@@ -37,7 +37,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('parent_id', sa.Integer(), nullable=True),
-    sa.Column('description', sa.Text(length=2000), nullable=True),
+    sa.Column('description', sa.String(length=2000), nullable=True),
     sa.Column('created_by', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
@@ -60,7 +60,7 @@ def upgrade():
     sa.Column('grade', sa.String(length=10), nullable=True),
     sa.Column('location', sa.String(length=255), nullable=True),
     sa.Column('area_id', sa.Integer(), nullable=True),
-    sa.Column('description', sa.Text(length=2000), nullable=True),
+    sa.Column('description', sa.String(length=2000), nullable=True),
     sa.Column('created_by', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
@@ -74,7 +74,7 @@ def upgrade():
     sa.Column('route_id', sa.Integer(), nullable=False),
     sa.Column('date', sa.DateTime(), nullable=False),
     sa.Column('style', sa.String(length=25), nullable=True),
-    sa.Column('notes', sa.Text(length=2000), nullable=True),
+    sa.Column('notes', sa.String(length=2000), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.ForeignKeyConstraint(['route_id'], ['routes.id'], ),
@@ -84,7 +84,7 @@ def upgrade():
     op.create_table('route_pictures',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('route_id', sa.Integer(), nullable=False),
-    sa.Column('picture_url', sa.Text(), nullable=False),
+    sa.Column('picture_url', sa.String(), nullable=False),
     sa.Column('uploaded_by', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.ForeignKeyConstraint(['route_id'], ['routes.id'], ),
@@ -94,7 +94,7 @@ def upgrade():
     op.create_table('ascent_pictures',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('ascent_id', sa.Integer(), nullable=False),
-    sa.Column('picture_url', sa.Text(), nullable=False),
+    sa.Column('picture_url', sa.String(), nullable=False),
     sa.Column('uploaded_by', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.ForeignKeyConstraint(['ascent_id'], ['ascents.id'], ),
@@ -106,7 +106,7 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('route_id', sa.Integer(), nullable=True),
     sa.Column('ascent_id', sa.Integer(), nullable=True),
-    sa.Column('content', sa.Text(length=500), nullable=False),
+    sa.Column('content', sa.String(length=500), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=False),
     sa.ForeignKeyConstraint(['ascent_id'], ['ascents.id'], ),
