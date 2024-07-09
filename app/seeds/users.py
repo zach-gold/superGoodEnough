@@ -78,8 +78,9 @@ def seed_users():
         )
         db.session.add(user)
 
-        db.session.commit()
-        print("Users seeded successfully!")
+     db.session.commit()
+     print("Users seeded successfully!")
+
 
 
 
