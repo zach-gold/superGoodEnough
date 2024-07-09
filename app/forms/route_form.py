@@ -27,7 +27,7 @@ class RouteForm(FlaskForm):
     location = StringField(
         'Location', validators=[Optional(), Length(max=255)])
     area_id = IntegerField(
-        'Area ID', validators=[DataRequired(), area_exists])
+        'Area ID', validators=[Optional(), area_exists])
     description = TextAreaField(
         'Description', validators=[Optional(), Length(max=2000)])
     created_by = IntegerField(
