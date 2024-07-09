@@ -12,7 +12,7 @@ class Ascent(db.Model):
     route_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('routes.id')), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     style = db.Column(db.String(25))
-    notes = db.Column(db.Text(2000))
+    notes = db.Column(db.String(2000))
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now(), onupdate=db.func.now())
 

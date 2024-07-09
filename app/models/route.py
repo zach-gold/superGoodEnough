@@ -12,7 +12,7 @@ class Route(db.Model):
     grade = db.Column(db.String(10))
     location = db.Column(db.String(255))
     area_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('climbing_areas.id')))
-    description = db.Column(db.Text(2000))
+    description = db.Column(db.String(2000))
     created_by = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now(), onupdate=db.func.now())

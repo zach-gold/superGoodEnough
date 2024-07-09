@@ -11,7 +11,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     route_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('routes.id')))
     ascent_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('ascents.id')))
-    content = db.Column(db.Text(500), nullable=False)
+    content = db.Column(db.String(500), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now(), onupdate=db.func.now())
     def to_dict(self):

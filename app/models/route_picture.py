@@ -9,7 +9,7 @@ class RoutePicture(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     route_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('routes.id')), nullable=False)
-    picture_url = db.Column(db.Text, nullable=False)
+    picture_url = db.Column(db.String, nullable=False)
     uploaded_by = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
