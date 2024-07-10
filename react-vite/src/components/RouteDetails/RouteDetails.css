@@ -1,0 +1,60 @@
+.route-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.route-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.route-images, .route-description, .route-ascents {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.route-images img, .ascent-images img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.ascent-details {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.ascent-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ascent-images img {
+    max-width: 100px;
+    border-radius: 5px;
+}
+
+.add-ascent-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-ascent-button:hover {
+    background-color: #0056b3;
+}

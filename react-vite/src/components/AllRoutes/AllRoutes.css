@@ -1,0 +1,60 @@
+.routes-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.routes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.route-item {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.route-item:hover {
+    transform: translateY(-5px);
+}
+
+.route-image-container {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.route-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.route-details {
+    display: flex;
+    flex-direction: column;
+    width:200px;
+    margin-right: 40px;
+}
+
+.route-details h3 {
+    margin: 0 0 10px 0;
+}
+
+.route-details p {
+    margin: 0 0 5px 0;
+}
