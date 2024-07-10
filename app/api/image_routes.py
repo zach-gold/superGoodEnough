@@ -10,7 +10,7 @@ image_routes = Blueprint("images", __name__)
 
 @image_routes.route("/route", methods=["POST"])
 @login_required
-def upload_image(route):
+def upload_route_image(routeId):
     form = ImageForm()
 
     if form.validate_on_submit():
@@ -27,7 +27,7 @@ def upload_image(route):
             return render_template("post_form.html", form=form, errors=[upload])
 
         url = upload["url"]
-        new_image = RoutePicture( route_id=route, picture_url=url, uploaded_by=current_user.id)
+        new_image = RoutePicture( route_id=routeId, picture_url=url, uploaded_by=current_user.id)
         db.session.add(new_image)
         db.session.commit()
         return new_image.to_dict(), 201
@@ -42,7 +42,7 @@ def upload_image(route):
 
 @image_routes.route("/ascent", methods=["POST"])
 @login_required
-def upload_image(ascent):
+def upload_ascent_image(ascentId):
     form = ImageForm()
 
     if form.validate_on_submit():
@@ -59,7 +59,7 @@ def upload_image(ascent):
             return render_template("post_form.html", form=form, errors=[upload])
 
         url = upload["url"]
-        new_image = AscentPicture( ascent_id=ascent, picture_url=url, uploaded_by=current_user.id)
+        new_image = AscentPicture( ascent_id=ascentId, picture_url=url, uploaded_by=current_user.id)
         db.session.add(new_image)
         db.session.commit()
         return new_image.to_dict(), 201

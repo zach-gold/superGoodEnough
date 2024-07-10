@@ -5,24 +5,24 @@ from sqlalchemy.sql import text
 def seed_routes():
     routes = [
         {
-            'name': 'The Great Wall',
-            'grade': '5.10b',
+            'name': 'Chain Reaction',
+            'grade': '5.12c',
             'location': 'Smith Rock, Oregon',
-            'description': 'A classic sport climb with steep face climbing.',
+            'description': ' Four bolts lead up the arete, with funky pinching, scumming, crimping and pocket pulling to get through the technical crux between the second and third bolts. The redpoint crux is the sports action throw over the roof at the top, though.',
             'created_by': 1
         },
         {
-            'name': 'Yosemite Crack',
-            'grade': '5.9',
+            'name': 'Serenity/Sons',
+            'grade': '5.10d',
             'location': 'Yosemite Valley, California',
-            'description': 'Famous crack climb with stunning views.',
+            'description': 'the route combination Serenity-Sons: The first three pitches belong to the route Serenity Crack (5.10d) and after a transition slope the five pitches of Sons of Yesterday (5.10a) are added. This tour is an absolute pleasure, but it is not recommended as an entry tour for crack climbing. ',
             'created_by': 2
         },
         {
-            'name': 'The Diamond',
-            'grade': '5.11c',
+            'name': 'The Casual Route',
+            'grade': '5.10a',
             'location': 'Rocky Mountain National Park, Colorado',
-            'description': 'Multi-pitch adventure on a steep granite face.',
+            'description': 'This 5.10a grade IV route is considered the easiest on the Diamond, but can feel more difficult due to altitude, cold, and exposure. It\'s a sustained and committing climb that involves a 5-mile approach to the 1,400-foot wall, with most of the climbing taking place over 13,000 feet of elevation. The Casual Route was first climbed in 1977 and is featured in Fifty Classic Climbs of North America.',
             'created_by': 3
         },
         {
@@ -33,10 +33,10 @@ def seed_routes():
             'created_by': 4
         },
         {
-            'name': 'Smith Rock Arch',
-            'grade': '5.12b',
-            'location': 'Smith Rock, Oregon',
-            'description': 'Technical face climbing under the famous arch.',
+            'name': 'La Dura Dura',
+            'grade': '5.15c',
+            'location': 'Sant Honarat, Oliana, Spain',
+            'description': 'The Hard Hard. Widely regarded as the most difficult sport climb in the world, La Dura Dura takes a direct line up the crag. Hard power endurance to a v14 crux, then 14c to finish. The low crux involves peanut-sized pinches and a heinous hand/foot match then a deadpoint to a decent hueco, the upper revolves around a long move to a horrible slopey tufa pinch. One repeat by Chris Sharma who bolted the route and worked it for several seasons with Adam Ondra, who made the first free ascent in 2013.',
             'created_by': 5
         },
     ]

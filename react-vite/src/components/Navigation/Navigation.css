@@ -1,3 +1,84 @@
 .profile-dropdown {
   position: absolute;
 }
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #c7c7c7;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  height: 100px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.login button,
+.signup button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #041629;
+  color: #fff;
+  cursor: pointer;
+}
+
+.login button:hover,
+.signup button:hover {
+  cursor: pointer;
+}
+
+.signup {
+  margin-left: 10px;
+}
+
+.login,
+.signup {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: black;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+#logged-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#profile {
+  margin-left: auto;
+
+  position: relative;
+}

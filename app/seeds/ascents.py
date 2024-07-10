@@ -11,28 +11,28 @@ def seed_ascents():
             'user_id': 1,
             'route_id': 3,
             'date': datetime(2023, 6, 15, 14, 30),
-            'style': 'Lead',
+            'style': 'Alpine',
             'notes': 'Enjoyed the challenging moves near the top.'
         },
         {
             'user_id': 2,
             'route_id': 1,
             'date': datetime(2023, 6, 10, 10, 0),
-            'style': 'Top Rope',
+            'style': 'Lead',
             'notes': 'Beautiful view from the top!'
         },
         {
             'user_id': 3,
             'route_id': 2,
             'date': datetime(2023, 5, 28, 9, 45),
-            'style': 'Lead',
+            'style': 'Trad',
             'notes': 'Crux move was challenging but manageable.'
         },
         {
             'user_id': 4,
             'route_id': 4,
             'date': datetime(2023, 7, 2, 11, 15),
-            'style': 'Top Rope',
+            'style': 'Trad',
             'notes': 'First time climbing this route, loved it!'
         },
         {
@@ -46,8 +46,8 @@ def seed_ascents():
             'user_id': 1,
             'route_id': 3,
             'date': datetime(2023, 5, 20, 10, 45),
-            'style': 'Boulder',
-            'notes': 'Finally sent the problem after multiple attempts.'
+            'style': 'Alpine',
+            'notes': 'Didn\'t anticipate the altitude getting to me'
         },
         {
             'user_id': 2,
@@ -60,14 +60,14 @@ def seed_ascents():
             'user_id': 3,
             'route_id': 2,
             'date': datetime(2023, 7, 1, 9, 0),
-            'style': 'Top Rope',
+            'style': 'Trad',
             'notes': 'Early morning ascent, peaceful and serene.'
         },
         {
             'user_id': 4,
             'route_id': 4,
             'date': datetime(2023, 5, 25, 15, 30),
-            'style': 'Lead',
+            'style': 'Trad',
             'notes': 'Pushed through the pump to reach the anchor.'
         },
         {
@@ -75,7 +75,7 @@ def seed_ascents():
             'route_id': 5,
             'date': datetime(2023, 6, 12, 14, 15),
             'style': 'Top Rope',
-            'notes': 'Enjoyed the technical footwork on this route.'
+            'notes': 'Literally impossible to lead climb'
         }
     ]
 

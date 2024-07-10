@@ -21,6 +21,7 @@ def get_all_routes():
         for ascent in route['ascents']:
             user = User.query.filter_by(id = ascent['user_id']).first()
             ascent['author'] = user.to_dict()
+            ascent['images'] = [x.to_dict() for x in AscentPicture.query.filter_by(ascent_id=ascent['id']).all()]
     return {"Routes":routes}
 
 
@@ -40,10 +41,49 @@ def one_route(id):
     for ascent in routeObj['ascents']:
         user = User.query.filter_by(id = ascent['user_id']).first()
         ascent['author'] = user.to_dict()
+        ascent['images'] = [x.to_dict() for x in AscentPicture.query.filter_by(ascent_id=ascent['id']).all()]
     return {"Route":routeObj}
 
+@route_routes.route('/', methods=['POST'])
+@login_required
+def create_route():
 
-@route_routes.route('/<int:id>/ascents')
+    '''
+        If logged in and the data is valid,
+        create a new route and add it to the database
+    '''
+    form = RouteForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        new_route = Route(
+            name=form.data['name'],
+            grade=form.data['grade'],
+            location=form.data['location'],
+            area_id=form.data['area_id'],
+            description=form.data['description'],
+            created_by=current_user.id
+        )
+
+        db.session.add(new_route)
+        db.session.commit()
+
+        safe_route = new_route.to_dict()
+        # safe_route['images'] = [x.to_dict() for x in RoutePicture.query.filter_by(route_id=safe_route['id']).all()]
+        author = User.query.filter_by(id=safe_route['created_by']).first()
+        safe_route['author'] = author.username
+        # safe_route['ascents'] =[x.to_dict() for x in Ascent.query.filter_by(route_id=safe_route['id']).all()]
+        # for ascent in safe_route['ascents']:
+        #     user = User.query.filter_by(id = ascent['user_id']).first()
+        #     ascent['author'] = user.to_dict()
+
+        return {'Route': safe_route}
+    if form.errors:
+        print(form.errors)
+        return {"message": "BadRequest", "errors": form.errors}, 400
+
+
+@route_routes.route('/<int:id>/ascents', methods=['GET'])
 def all_route_ascents(id):
     '''
         Get all ascents for a route in the database
@@ -58,7 +98,12 @@ def all_route_ascents(id):
 
 @route_routes.route('/<int:id>/ascents', methods=["POST"])
 @login_required
-def make_ascent(id):
+def create_ascent(id):
+
+    '''
+        If logged in and the data is valid,
+        create a new ascent on a route and add it to the database
+    '''
 
     form = AscentForm()
     form['csrf_token'].data = request.cookies['csrf_token']

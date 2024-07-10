@@ -1,7 +1,9 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .routes import seed_routes, undo_routes
+from .route_pictures import seed_route_pictures, undo_route_pictures
 from .ascents import seed_ascents, undo_ascents
+from .ascent_pictures import seed_ascent_pictures, undo_ascent_pictures
 
 from app.models.db import db, environment, SCHEMA
 
@@ -21,14 +23,18 @@ def seed():
         undo_users()
     seed_users()
     seed_routes()
+    seed_route_pictures()
     seed_ascents()
+    seed_ascent_pictures()
     # Add other seed functions here
 
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
+    undo_ascent_pictures()
     undo_ascents()
+    undo_route_pictures()
     undo_routes()
     undo_users()
     # Add other undo functions here
