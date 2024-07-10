@@ -1,7 +1,7 @@
 from flask_login import current_user, login_required
 from flask import Blueprint, request
 from app.models import Route, Ascent, db, User, RoutePicture, AscentPicture
-from app.forms import route_form, ascent_form, image_form
+from app.forms import RouteForm, AscentForm, ImageForm
 
 route_routes = Blueprint('routes', __name__)
 
@@ -55,3 +55,32 @@ def all_route_ascents(id):
         author = User.query.filter_by(id=ascent['user_id']).first()
         ascent['author'] = author.username
     return {"Ascents":ascents}
+
+@route_routes.route('/<int:id>/ascents', methods=["POST"])
+@login_required
+def make_ascent(id):
+
+    form = AscentForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        new_ascent = Ascent(
+            user_id=current_user.id,
+            route_id=id,
+            date=form.data['date'],
+            style=form.data['style'],
+            notes=form.data['notes']
+        )
+        db.session.add(new_ascent)
+        db.session.commit()
+
+        safe_ascent = new_ascent.to_dict()
+        x_route = Route.query.filter_by(id=id).first()
+        route = x_route.to_dict()
+        owner = User.query.filter_by(id= route['created_by']).first()
+        route['owner']=owner.to_dict()
+        safe_ascent['parent_route']=route
+        safe_ascent['images'] = [x.to_dict() for x in AscentPicture.query.filter_by(ascent_id=safe_ascent['id']).all()]
+        return{'Ascent':safe_ascent}
+    if form.errors:
+        print(form.errors)
+        return {"message":"BadRequest", "errors":form.errors}, 400
