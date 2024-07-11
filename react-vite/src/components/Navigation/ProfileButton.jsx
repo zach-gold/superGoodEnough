@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { thunkLogout } from "../../redux/session";
 
-import "./ProfileButton.css";
+// import "./ProfileButton.css";
 
 function ProfileButton() {
   const dispatch = useDispatch();
