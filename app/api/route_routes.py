@@ -82,6 +82,62 @@ def create_route():
         print(form.errors)
         return {"message": "BadRequest", "errors": form.errors}, 400
 
+@route_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def edit_route(id):
+
+    '''
+        If logged in and the data is valid,
+        update a route and add it to the database
+    '''
+
+    route = Route.query.filter_by(id=id).first()
+    if route.user_id != current_user.id:
+        return {"message":"Not the owner of this route"},401
+    form = RouteForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+
+        route.name=form.data['name'],
+        route.grade=form.data['grade'],
+        route.location=form.data['location'],
+        route.area_id=form.data['area_id'],
+        route.description=form.data['description'],
+
+        db.session.commit()
+
+        safe_route = route.to_dict()
+        safe_route['images'] = [x.to_dict() for x in RoutePicture.query.filter_by(route_id=safe_route['id']).all()]
+        author = User.query.filter_by(id=safe_route['created_by']).first()
+        safe_route['author'] = author.username
+        safe_route['ascents'] =[x.to_dict() for x in Ascent.query.filter_by(route_id=safe_route['id']).all()]
+        for ascent in safe_route['ascents']:
+            user = User.query.filter_by(id = ascent['user_id']).first()
+            ascent['author'] = user.to_dict()
+
+        return {'Route': safe_route}
+    if form.errors:
+        print(form.errors)
+        return {"message": "BadRequest", "errors": form.errors}, 400
+
+
+@route_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_post(id):
+    '''
+        If logged in and the owner of the
+        question, delete the route from the
+        database if it exists
+    '''
+    route = Route.query.filter_by(id=id).first()
+    if current_user.id == route.user_id:
+        db.session.delete(route)
+        db.session.commit()
+        return {"id":id}
+    else:
+        return {"id":None}, 404
+
 
 @route_routes.route('/<int:id>/ascents', methods=['GET'])
 def all_route_ascents(id):
