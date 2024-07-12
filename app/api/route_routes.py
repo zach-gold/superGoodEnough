@@ -82,7 +82,7 @@ def create_route():
         print(form.errors)
         return {"message": "BadRequest", "errors": form.errors}, 400
 
-@route_routes.route('/<int:id>', methods=['PUT'])
+@route_routes.route('/<int:id>', methods=['PATCH'])
 @login_required
 def edit_route(id):
 
@@ -92,18 +92,24 @@ def edit_route(id):
     '''
 
     route = Route.query.filter_by(id=id).first()
-    if route.user_id != current_user.id:
-        return {"message":"Not the owner of this route"},401
+    if route.created_by != current_user.id:
+        return {"message": "Not the owner of this route"}, 401
+
     form = RouteForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
 
-        route.name=form.data['name'],
-        route.grade=form.data['grade'],
-        route.location=form.data['location'],
-        route.area_id=form.data['area_id'],
-        route.description=form.data['description'],
+        if form.data['name']:
+            route.name = form.data['name']
+        if form.data['grade']:
+            route.grade = form.data['grade']
+        if form.data['location']:
+            route.location = form.data['location']
+        if form.data['area_id']:
+            route.area_id = form.data['area_id']
+        if form.data['description']:
+            route.description = form.data['description']
 
         db.session.commit()
 
@@ -111,9 +117,9 @@ def edit_route(id):
         safe_route['images'] = [x.to_dict() for x in RoutePicture.query.filter_by(route_id=safe_route['id']).all()]
         author = User.query.filter_by(id=safe_route['created_by']).first()
         safe_route['author'] = author.username
-        safe_route['ascents'] =[x.to_dict() for x in Ascent.query.filter_by(route_id=safe_route['id']).all()]
+        safe_route['ascents'] = [x.to_dict() for x in Ascent.query.filter_by(route_id=safe_route['id']).all()]
         for ascent in safe_route['ascents']:
-            user = User.query.filter_by(id = ascent['user_id']).first()
+            user = User.query.filter_by(id=ascent['user_id']).first()
             ascent['author'] = user.to_dict()
 
         return {'Route': safe_route}
@@ -131,7 +137,7 @@ def delete_post(id):
         database if it exists
     '''
     route = Route.query.filter_by(id=id).first()
-    if current_user.id == route.user_id:
+    if current_user.id == route.created_by:
         db.session.delete(route)
         db.session.commit()
         return {"id":id}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, IntegerField, DateTimeField
+from wtforms import StringField, TextAreaField, IntegerField, DateField
 from wtforms.validators import DataRequired, Optional, Length, ValidationError
 from app.models import User, Route
 
@@ -22,11 +22,11 @@ def route_exists(form, field):
 
 
 class AscentForm(FlaskForm):
-    user_id = IntegerField(
-        'User ID', validators=[DataRequired(), user_exists])
+    # user_id = IntegerField(
+    #     'User ID', validators=[DataRequired(), user_exists])
     route_id = IntegerField(
         'Route ID', validators=[DataRequired(), route_exists])
-    date = DateTimeField(
+    date = DateField(
         'Date', validators=[DataRequired()], )
     style = StringField(
         'Style', validators=[Optional(), Length(max=25)])

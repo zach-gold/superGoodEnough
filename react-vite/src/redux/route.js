@@ -92,7 +92,7 @@ export const updateRouteThunk =
   (route, routeId) => async (dispatch) => {
     const id = routeId;
     const response = await fetch(`/api/routes/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -101,6 +101,7 @@ export const updateRouteThunk =
     if (response.ok) {
       const { Route } = await response.json();
       dispatch(updateRoute(Route));
+      return Route.id
     } else {
       const data = await response.json();
       return data;
