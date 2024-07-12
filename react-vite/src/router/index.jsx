@@ -4,8 +4,11 @@ import SignupFormPage from '../components/SignupFormPage';
 import Homepage from '../components/Homepage/Homepage';
 import AllRoutes from '../components/AllRoutes';
 import RouteDetails from '../components/RouteDetails';
+import ManageRoutes from '../components/ManageRoutes';
 import CreateRoute from '../components/CreateRoute';
+import UpdateRoute from '../components/UpdateRoute';
 import CreateAscent from '../components/CreateAscent';
+import ManageAscents from '../components/ManageAscents';
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -29,8 +32,16 @@ export const router = createBrowserRouter([
         element: <AllRoutes />,
       },
       {
+        path: "routes/manage",
+        element: <ManageRoutes />,
+      },
+      {
         path: "routes/:routeId",
         element: <RouteDetails />,
+      },
+      {
+        path: "routes/:routeId/update",
+        element: <UpdateRoute />,
       },
       {
         path: "routes/new",
@@ -39,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "routes/:routeId/ascents/new",
         element: <CreateAscent />,
+      },
+      {
+        path: "ascents/manage",
+        element: <ManageAscents />,
       },
     ],
   },

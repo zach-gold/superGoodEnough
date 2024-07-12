@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import { addRoute, createRoutePicture } from "../../store/routes"; //TODO
+import { createRouteThunk } from "../../redux/route"; //TODO
 import "./CreateRoute.css";
 
 const CreateRoute = () => {
@@ -30,24 +30,24 @@ const CreateRoute = () => {
       description: description,
     };
 
-    // const response = await dispatch(addRoute(newRoute));
-    // if (response.errors) {
-    //   setErrors(response.errors);
-    // } else {
-    //   const formData = new FormData();
-    //   formData.append("image", image);
+    let response = await dispatch(createRouteThunk(newRoute));
+    if (response?.errors) {
+      setErrors(response.errors);
+      console.log(errors)
+    } else {
+      // const formData = new FormData();
+      // formData.append("image", image);
 
-    //   // aws uploads can be a bit slow—displaying
-    //   // some sort of loading message is a good idea
-    //   setImageLoading(true);
-    //   const imgResponse = await dispatch(createRoutePicture(formData));
-    //   if (imgResponse.errors) {
-    //     setErrors(imgResponse.errors);
-    //   } else {
-    //     history.push("/images");
-    //     navigate(`/routes/${response}`);
-    //   }
-    // }
+      // // aws uploads can be a bit slow—displaying
+      // // some sort of loading message is a good idea
+      // setImageLoading(true);
+      // const imgResponse = await dispatch(createRoutePicture(formData));
+      // if (imgResponse.errors) {
+      //   setErrors(imgResponse.errors);
+      // } else {
+      // history.push("/images");
+      navigate(`/routes/${response}`);
+    }
   };
 
   const handleDrop = (e) => {

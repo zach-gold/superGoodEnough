@@ -1,44 +1,43 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createAscentThunk } from "../../redux/ascent"; // TODO
-import "./CreateAscent.css";
+import { updateRouteThunk } from "../../redux/route"; //TODO
+import "../CreateRoute/CreateRoute.css";
 
-const CreateAscent = () => {
-  const { routeId } = useParams();
-//   const history = useHistory(); // so that you can redirect after the image upload is successful
+const UpdateRoute = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.session.user);
+  const {routeId} = useParams();
+    const user = useSelector((state) => state.session.user);
+    const route = useSelector((state) => state.routes[routeId])
 
-  const [date, setDate] = useState("");
-  const [style, setStyle] = useState("");
-  const [notes, setNotes] = useState("");
+  const [name, setName] = useState(route?.name);
+  const [grade, setGrade] = useState(route?.grade);
+  const [location, setLocation] = useState(route?.location);
+  const [areaId, setAreaId] = useState(route?.area_id? route.area_id : "");
+  const [description, setDescription] = useState(route?.description);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newAscent = {
-      route_id: routeId,
-      date: date,
-      style: style,
-      notes: notes,
+    const updatedRoute = {
+      name: name,
+      grade: grade,
+      location: location,
+      area_id: areaId,
+      description: description,
     };
 
-    console.log(newAscent)
+      console.log(updatedRoute)
 
-    const response = await dispatch(createAscentThunk(newAscent, routeId));
-    if (response.errors) {
+    let response = await dispatch(updateRouteThunk(updatedRoute, routeId));
+    if (response?.errors) {
       setErrors(response.errors);
+      console.log(errors);
     } else {
       // const formData = new FormData();
       // formData.append("image", image);
@@ -46,14 +45,13 @@ const CreateAscent = () => {
       // // aws uploads can be a bit slow—displaying
       // // some sort of loading message is a good idea
       // setImageLoading(true);
-      // const imgResponse = await dispatch(createAscentPicture(formData));
+      // const imgResponse = await dispatch(createRoutePicture(formData));
       // if (imgResponse.errors) {
       //   setErrors(imgResponse.errors);
       // } else {
-        // history.push("/images");
-        navigate(`/routes/${routeId}`);
-      }
-    // }
+      // history.push("/images");
+      navigate(`/routes/${response}`);
+    }
   };
 
   const handleDrop = (e) => {
@@ -88,37 +86,60 @@ const CreateAscent = () => {
   };
 
   return (
-    <div className="create-ascent-container">
-      <h2>Add Your Ascent</h2>
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className="create-route-container">
+      <h2>Add New Route</h2>
+      <form onSubmit={handleSubmit}>
+        {errors.length > 0 && (
+          <ul>
+            {errors.map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
+          </ul>
+        )}
         <div className="form-group">
-          <label htmlFor="date">Date</label>
-          <input
-            type="date"
-            id="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="style">Style</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
-            id="style"
-            value={style}
-            onChange={(e) => setStyle(e.target.value)}
-            placeholder="e.g., lead, trad, top-rope, bouldering"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="notes">Notes</label>
+          <label htmlFor="grade">Grade</label>
+          <input
+            type="text"
+            id="grade"
+            value={grade}
+            onChange={(e) => setGrade(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="location">Location</label>
+          <input
+            type="text"
+            id="location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </div>
+        {/* <div className="form-group">
+          <label htmlFor="areaId">Area ID</label>
+          <input
+            type="number"
+            id="areaId"
+            value={areaId}
+            onChange={(e) => setAreaId(e.target.value)}
+            required
+          />
+        </div> */}
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
           <textarea
-            id="notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Any additional notes..."
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -149,10 +170,10 @@ const CreateAscent = () => {
             {imageLoading && <p>Loading...</p>}
           </div>
         </div>
-        <button type="submit">Add Ascent</button>
+        <button type="submit">Add Route</button>
       </form>
     </div>
   );
 };
 
-export default CreateAscent;
+export default UpdateRoute;

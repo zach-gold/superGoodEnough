@@ -30,5 +30,3 @@ class RouteForm(FlaskForm):
         'Area ID', validators=[Optional(), area_exists])
     description = TextAreaField(
         'Description', validators=[Optional(), Length(max=2000)])
-    created_by = IntegerField(
-        'Created By', validators=[DataRequired(), user_exists])
