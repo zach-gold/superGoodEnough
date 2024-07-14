@@ -33,7 +33,12 @@ const AllRoutes = () => {
 
   return (
     <div className="routes-container">
-      <h2>All Routes</h2>
+      <div className="header">
+        <h2>All Routes</h2>
+        <Link to="/routes/new" className="create-route-link">
+          Create A New Route
+        </Link>
+      </div>
       <div className="routes-list">
         {Object.values(routes).map((route) => (
           <div key={route.id} className="route-item">

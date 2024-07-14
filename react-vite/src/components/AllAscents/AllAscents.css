@@ -1,40 +1,21 @@
-.routes-container {
+.ascents-container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
 h2 {
-    margin: 0;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.create-route-link {
-    text-decoration: none;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.create-route-link:hover {
-    background-color: #45a049;
-}
-
-.routes-list {
+.ascents-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.route-item {
+.ascent-item {
     display: flex;
     align-items: flex-start;
     background-color: #f9f9f9;
@@ -44,11 +25,11 @@ h2 {
     transition: transform 0.3s;
 }
 
-.route-item:hover {
+.ascent-item:hover {
     transform: translateY(-5px);
 }
 
-.route-image-container {
+.ascent-image-container {
     flex-shrink: 0;
     width: 150px;
     height: 150px;
@@ -57,24 +38,23 @@ h2 {
     margin-right: 20px;
 }
 
-.route-image {
+.ascent-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.route-details {
+.all-ascent-details {
     display: flex;
     flex-direction: column;
-    width:200px;
+    width: 200px;
     margin-right: 40px;
 }
 
-.route-details h3 {
+.all-ascent-details h3 {
     margin: 0 0 10px 0;
 }
 
-.route-details p {
+.all-ascent-details p {
     margin: 0 0 5px 0;
 }
-

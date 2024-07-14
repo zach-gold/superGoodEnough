@@ -51,8 +51,8 @@ export const createAscentThunk = (ascent, id) => async (dispatch) => {
 };
 
 
-export const updateAscentThunk = (ascent) => async (dispatch) => {
-  const res = await fetch(`/api/ascents/${ascent.id}`, {
+export const updateAscentThunk = (ascent, ascentId) => async (dispatch) => {
+  const res = await fetch(`/api/ascents/${ascentId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

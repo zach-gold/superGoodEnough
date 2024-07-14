@@ -22,7 +22,12 @@ function Navigation() {
 
   return (
     <div className="navbar">
-      <div className="logoDiv"></div>
+      <div className="logoDiv">
+        <Link to="/" className="logo">
+          <div className="logo-icon">⛰️</div>
+          Super Good Enough
+        </Link>
+      </div>
 
       <nav className="nav-links">
         <NavLink to="/areas" className="nav-link">

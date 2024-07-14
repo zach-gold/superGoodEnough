@@ -32,7 +32,7 @@ def edit_ascent(id):
         update the entry in the database
     '''
     ascent = Ascent.query.filter_by(id=id).first()
-    if ascent.created_by != current_user.id:
+    if ascent.user_id != current_user.id:
         return {"message": "Not the owner of this Ascent"}, 401
 
     form = AscentForm()
