@@ -61,14 +61,17 @@ const CreateAscent = () => {
 
       // // aws uploads can be a bit slow—displaying
       // // some sort of loading message is a good idea
-      setImageLoading(true);
-      const imgResponse = await dispatch(thunkAddAscentImage(response.id, image));
-      if (imgResponse.errors) {
-        setErrors(imgResponse.errors);
-      } else {
-        // history.push("/images");
-        navigate(`/routes/${routeId}`);
+      if (image) {
+        setImageLoading(true);
+        const imgResponse = await dispatch(thunkAddAscentImage(response.id, image));
+        if (imgResponse.errors) {
+          setErrors(imgResponse.errors);
+        } else {
+          // history.push("/images");
+          navigate(`/routes/${routeId}`);
+        }
       }
+      navigate(`/routes/${routeId}`);
     }
   }
 

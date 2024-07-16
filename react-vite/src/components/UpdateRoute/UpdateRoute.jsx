@@ -69,14 +69,17 @@ const UpdateRoute = () => {
 
       // // aws uploads can be a bit slow—displaying
       // // some sort of loading message is a good idea
-      setImageLoading(true);
-      const imgResponse = await dispatch(thunkAddRouteImage(response, image));
-      if (imgResponse.errors) {
-        setErrors(imgResponse.errors);
-      } else {
-        // history.push("/images");
-        navigate(`/routes/${response}`);
+      if (image) {
+        setImageLoading(true);
+        const imgResponse = await dispatch(thunkAddRouteImage(response, image));
+        if (imgResponse.errors) {
+          setErrors(imgResponse.errors);
+        } else {
+          // history.push("/images");
+          navigate(`/routes/${response}`);
+        }
       }
+      navigate(`/routes/${response}`);
     }
   }
 
