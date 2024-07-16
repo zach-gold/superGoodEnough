@@ -203,7 +203,7 @@ const UpdateRoute = () => {
           type="submit"
           disabled={Object.values(errors).length ? true : false}
         >
-          Add Route
+          Update Route
         </button>
       </form>
     </div>
