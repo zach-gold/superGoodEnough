@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./AllRoutes.css";
 import { getRoutesThunk } from "../../redux/route";
 
@@ -18,9 +18,18 @@ const AllRoutes = () => {
 
   //   fetchRoutes();
   // }, []);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const routes = useSelector((state) => state.routes);
+  const user = useSelector((state) => state.session.user);
+
+  const handleAddRoute = () => {
+    if (user) {
+      navigate(`/routes/new`);
+    } else {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     dispatch(getRoutesThunk());
@@ -35,9 +44,9 @@ const AllRoutes = () => {
     <div className="routes-container">
       <div className="header">
         <h2>All Routes</h2>
-        <Link to="/routes/new" className="create-route-link">
+        <button className="create-route-link" onClick={handleAddRoute}>
           Create A New Route
-        </Link>
+        </button>
       </div>
       <div className="routes-list">
         {Object.values(routes).map((route) => (

@@ -3,6 +3,7 @@ const GET_ONE_ROUTE = "/route/getOne";
 const DELETE_ROUTE = "/route/remove";
 const CREATE_ROUTE = "/route/create";
 const UPDATE_ROUTE = "/route/update";
+const ADD_ROUTE_IMAGE = "route/addImage";
 
 const getRoutes = (routes) => ({
   type: GET_ROUTES,
@@ -29,6 +30,12 @@ const updateRoute = (route) => ({
   payload: route,
 });
 
+const addRouteImage = (routeId, image) => ({
+  type: ADD_ROUTE_IMAGE,
+  routeId,
+  image,
+});
+
 export const getRoutesThunk = () => async (dispatch) => {
   const response = await fetch("/api/routes");
   if (response.ok) {
@@ -41,12 +48,12 @@ export const getRoutesThunk = () => async (dispatch) => {
 };
 
 export const getOneRouteThunk = (id) => async (dispatch) => {
-    const response = await fetch(`/api/routes/${id}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    });
+  const response = await fetch(`/api/routes/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   if (response.ok) {
     const { Route } = await response.json();
     dispatch(getOneRoute(Route));
@@ -88,25 +95,41 @@ export const createRouteThunk = (route) => async (dispatch) => {
   }
 };
 
-export const updateRouteThunk =
-  (route, routeId) => async (dispatch) => {
-    const id = routeId;
-    const response = await fetch(`/api/routes/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(route),
-    });
-    if (response.ok) {
-      const { Route } = await response.json();
-      dispatch(updateRoute(Route));
-      return Route.id
-    } else {
-      const data = await response.json();
-      return data;
-    }
-  };
+export const thunkAddRouteImage = (routeId, image) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append("image", image);
+  const res = await fetch(`/api/images/route/${routeId}`, {
+    method: "POST",
+    body: formData,
+  });
+  if (res.ok) {
+    const routeImage = await res.json();
+    dispatch(addRouteImage(routeId, routeImage));
+    return routeImage; // return the route image data
+  } else {
+    const error = await res.json();
+    return error;
+  }
+};
+
+export const updateRouteThunk = (route, routeId) => async (dispatch) => {
+  const id = routeId;
+  const response = await fetch(`/api/routes/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(route),
+  });
+  if (response.ok) {
+    const { Route } = await response.json();
+    dispatch(updateRoute(Route));
+    return Route.id;
+  } else {
+    const data = await response.json();
+    return data;
+  }
+};
 
 const initialState = {};
 
@@ -137,6 +160,10 @@ const routeReducer = (state = initialState, action) => {
       const newState = { ...state };
       newState[action.payload.id] = { ...action.payload };
       return { ...newState };
+    }
+    case ADD_ROUTE_IMAGE: {
+      const newState = { ...state };
+      // newState[action.payload.id] = { ...action.payload };
     }
     default:
       return state;

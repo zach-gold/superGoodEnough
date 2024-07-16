@@ -1,7 +1,7 @@
 from flask_login import current_user, login_required
 from flask import Blueprint, request
 from app.models import db, Ascent, Route,User, AscentPicture
-from app.forms import AscentForm
+from app.forms import UpdateAscentForm
 
 ascent_routes = Blueprint('ascents', __name__)
 
@@ -35,12 +35,10 @@ def edit_ascent(id):
     if ascent.user_id != current_user.id:
         return {"message": "Not the owner of this Ascent"}, 401
 
-    form = AscentForm()
+    form = UpdateAscentForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        if form.data['date']:
-            ascent.date = form.data['date']
         if form.data['style']:
             ascent.style = form.data['style']
         if form.data['notes']:

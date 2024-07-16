@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createAscentThunk } from "../../redux/ascent"; // TODO
+import { createAscentThunk, thunkAddAscentImage } from "../../redux/ascent"; // TODO
 import "./CreateAscent.css";
 
 const CreateAscent = () => {
   const { routeId } = useParams();
-//   const history = useHistory(); // so that you can redirect after the image upload is successful
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.session.user);
@@ -18,6 +17,23 @@ const CreateAscent = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    const errors = [];
+
+    if (!date) {
+      errors.push("Date is required");
+    }
+
+    if (style.length > 25) {
+      errors.push("Style must be less than 25 characters");
+    }
+    if (notes.length > 2000) {
+      errors.push("Notes must be less than characters");
+    }
+
+    setErrors(errors);
+  }, [date, style, notes]);
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -34,27 +50,27 @@ const CreateAscent = () => {
       notes: notes,
     };
 
-    console.log(newAscent)
+    console.log(newAscent);
 
     const response = await dispatch(createAscentThunk(newAscent, routeId));
     if (response.errors) {
       setErrors(response.errors);
     } else {
-      // const formData = new FormData();
+      // let formData = new FormData();
       // formData.append("image", image);
 
       // // aws uploads can be a bit slow—displaying
       // // some sort of loading message is a good idea
-      // setImageLoading(true);
-      // const imgResponse = await dispatch(createAscentPicture(formData));
-      // if (imgResponse.errors) {
-      //   setErrors(imgResponse.errors);
-      // } else {
+      setImageLoading(true);
+      const imgResponse = await dispatch(thunkAddAscentImage(response.id, image));
+      if (imgResponse.errors) {
+        setErrors(imgResponse.errors);
+      } else {
         // history.push("/images");
         navigate(`/routes/${routeId}`);
       }
-    // }
-  };
+    }
+  }
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -91,6 +107,13 @@ const CreateAscent = () => {
     <div className="create-ascent-container">
       <h2>Add Your Ascent</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
+        {errors.length > 0 && (
+          <ul>
+            {errors.map((error, idx) => (
+              <li key={idx}>{error}</li>
+            ))}
+          </ul>
+        )}
         <div className="form-group">
           <label htmlFor="date">Date</label>
           <input
@@ -149,7 +172,12 @@ const CreateAscent = () => {
             {imageLoading && <p>Loading...</p>}
           </div>
         </div>
-        <button type="submit">Add Ascent</button>
+        <button
+          type="submit"
+          disabled={Object.values(errors).length ? true : false}
+        >
+          Add Ascent
+        </button>
       </form>
     </div>
   );

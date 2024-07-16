@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateRouteThunk } from "../../redux/route"; //TODO
+import { updateRouteThunk, thunkAddRouteImage } from "../../redux/route"; //TODO
 import "../CreateRoute/CreateRoute.css";
 
 const UpdateRoute = () => {
@@ -21,6 +21,31 @@ const UpdateRoute = () => {
   const [imageLoading, setImageLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
+  useEffect(() => {
+    const errors = [];
+
+    if (!name) {
+      errors.push("Name is required");
+    }
+
+    if (location.length > 255) {
+      errors.push("Location must be less than 255 characters");
+    }
+    if (description.length > 2000) {
+      errors.push("Description must be less than 2000 characters");
+    }
+
+    const gradeRegexEuro = /^[0-9]{1,2}[A-Za-z]?$/;
+    const gradeRegexNA = /^5\.\d+(?:[abcd]?[\+\-]?)?$/;
+    if (grade && !gradeRegexEuro.test(grade) && !gradeRegexNA.test(grade)) {
+      errors.push(
+        "Grade must be a valid format (e.g., 5, 5a, 10, 12d, 5.10a, 5.11)"
+      );
+    }
+
+    setErrors(errors);
+  }, [name, grade, location, description]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,27 +57,28 @@ const UpdateRoute = () => {
       description: description,
     };
 
-      console.log(updatedRoute)
+    console.log(updatedRoute);
 
     let response = await dispatch(updateRouteThunk(updatedRoute, routeId));
     if (response?.errors) {
       setErrors(response.errors);
       console.log(errors);
     } else {
-      // const formData = new FormData();
+      // let formData = new FormData();
       // formData.append("image", image);
 
       // // aws uploads can be a bit slow—displaying
       // // some sort of loading message is a good idea
-      // setImageLoading(true);
-      // const imgResponse = await dispatch(createRoutePicture(formData));
-      // if (imgResponse.errors) {
-      //   setErrors(imgResponse.errors);
-      // } else {
-      // history.push("/images");
-      navigate(`/routes/${response}`);
+      setImageLoading(true);
+      const imgResponse = await dispatch(thunkAddRouteImage(response, image));
+      if (imgResponse.errors) {
+        setErrors(imgResponse.errors);
+      } else {
+        // history.push("/images");
+        navigate(`/routes/${response}`);
+      }
     }
-  };
+  }
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -87,7 +113,7 @@ const UpdateRoute = () => {
 
   return (
     <div className="create-route-container">
-      <h2>Add New Route</h2>
+      <h2>Update Your Route</h2>
       <form onSubmit={handleSubmit}>
         {errors.length > 0 && (
           <ul>
@@ -170,7 +196,12 @@ const UpdateRoute = () => {
             {imageLoading && <p>Loading...</p>}
           </div>
         </div>
-        <button type="submit">Add Route</button>
+        <button
+          type="submit"
+          disabled={Object.values(errors).length ? true : false}
+        >
+          Add Route
+        </button>
       </form>
     </div>
   );

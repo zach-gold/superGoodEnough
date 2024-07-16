@@ -55,7 +55,7 @@ const ManageAscents = () => {
             {ascent.images.length > 0 && (
               <div className="ascent-image-container">
                 <img
-                  src={ascent.images[0].url}
+                  src={ascent.images[0].picture_url}
                   alt="Ascent"
                   className="ascent-image"
                 />

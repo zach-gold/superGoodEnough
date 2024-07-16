@@ -2,6 +2,8 @@ const GET_ASCENT = "ascent/getAscents";
 const CREATE_ASCENT = "ascent/createAscent";
 const UPDATE_ASCENT = "ascent/updateAscent";
 const DELETE_ASCENT = "ascent/deleteAscent";
+const ADD_ASCENT_IMAGE = "ascent/addImage";
+
 
 const getAll = (ascents) => ({
   type: GET_ASCENT,
@@ -21,6 +23,12 @@ const updateAscents = (ascent) => ({
 const delAscent = (id) => ({
   type: DELETE_ASCENT,
   payload: id,
+});
+
+const addAscentImage = (ascentId, image) => ({
+  type: ADD_ASCENT_IMAGE,
+  ascentId,
+  image,
 });
 
 export const getAllAscentsThunk = () => async (dispatch) => {
@@ -47,6 +55,22 @@ export const createAscentThunk = (ascent, id) => async (dispatch) => {
   } else {
     const data = await res.json();
     return data;
+  }
+};
+export const thunkAddAscentImage = (ascentId, image) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append("image", image);
+  const res = await fetch(`/api/images/ascent/${ascentId}`, {
+    method: "POST",
+    body: formData,
+  });
+  if (res.ok) {
+    const ascentImage = await res.json();
+    dispatch(addAscentImage(ascentId, ascentImage));
+    return ascentImage; // return the ascent image data
+  } else {
+    const error = await res.json();
+    return error;
   }
 };
 
@@ -106,6 +130,10 @@ const ascentReducer = (state = initialState, action) => {
         }
       }
       return newState;
+    }
+    case ADD_ASCENT_IMAGE: {
+      const newState = { ...state };
+      // newState[action.payload.id] = { ...action.payload };
     }
     default:
       return state;

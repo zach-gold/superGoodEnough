@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getRoutesThunk } from "../../redux/route";
 import { getAllAscentsThunk } from "../../redux/ascent";
+import Slider from "react-slick";
 import "./Homepage.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Homepage = () => {
   const dispatch = useDispatch();
@@ -25,14 +28,69 @@ const Homepage = () => {
     return <p>Loading...</p>;
   }
 
+  function NextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "#4CAF50",
+          borderRadius: "50%",
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+
+  function PrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "#4CAF50", borderRadius: "50%" }}
+        onClick={onClick}
+      />
+    );
+  }
+
+
+    const settings = {
+      dots: true,
+      infinite: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      nextArrow: <NextArrow />,
+      prevArrow: <PrevArrow />
+    };
+
+
   return (
     <>
       <div className="home-page">
         <div className="banner">
-          <div className="featured-route">
-            <div className="featured-picture">Picture</div>
-            <div className="featured-info">Route info</div>
-          </div>
+          <Slider {...settings}>
+            {Object.values(routes)
+              .slice(0, 5)
+              .map((route) => (
+                <div key={route.id} className="featured-route">
+                  <div
+                    className="featured-picture"
+                    style={{
+                      backgroundImage: `url(${route.images[0]?.picture_url})`,
+                    }}
+                  >
+                    <Link to={`/routes/${route.id}`}>
+                      <div className="featured-info">
+                        <h3>{route.name}</h3>
+                        <p>{route.location}</p>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+          </Slider>
         </div>
         <div className="content">
           <div className="routes-section">
