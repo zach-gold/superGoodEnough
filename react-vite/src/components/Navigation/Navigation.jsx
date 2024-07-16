@@ -30,18 +30,18 @@ function Navigation() {
       </div>
 
       <nav className="nav-links">
-        <NavLink to="/areas" className="nav-link">
+        {/* <NavLink to="/areas" className="nav-link">
           Areas
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/routes" className="nav-link">
           Routes
         </NavLink>
         <NavLink to="/ascents" className="nav-link">
           Ascents
         </NavLink>
-        <NavLink to="/climbers" className="nav-link">
+        {/* <NavLink to="/climbers" className="nav-link">
           Climbers
-        </NavLink>
+        </NavLink> */}
       </nav>
       {!sessionUser && (
         <div className="login">
