@@ -135,7 +135,6 @@ const CreateAscent = () => {
             value={style}
             onChange={(e) => setStyle(e.target.value)}
             placeholder="e.g., lead, trad, top-rope, bouldering"
-            required
           />
         </div>
         <div className="form-group">
