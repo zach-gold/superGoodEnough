@@ -27,7 +27,7 @@ def seed_route_pictures():
         route_id=4, picture_url="https://super-good-enough-photos.s3.us-east-2.amazonaws.com/el-cap-nose-2.jpg", uploaded_by=4
     )
     image9 = RoutePicture(
-        route_id=5, picture_url="hhttps://super-good-enough-photos.s3.us-east-2.amazonaws.com/la-dura-dura-1.jpg", uploaded_by=5
+        route_id=5, picture_url="https://super-good-enough-photos.s3.us-east-2.amazonaws.com/la-dura-dura-1.jpg", uploaded_by=5
     )
     image10 = RoutePicture(
         route_id=5, picture_url="https://super-good-enough-photos.s3.us-east-2.amazonaws.com/la-dura-dura-2.jpg", uploaded_by=5
