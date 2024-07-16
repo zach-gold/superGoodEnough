@@ -63,10 +63,10 @@ const UpdateAscent = () => {
           setErrors(imgResponse.errors);
         } else {
           // history.push("/images");
-          navigate(`/routes/${routeId}`);
+          navigate(`/routes/${ascent.route_id}`);
         }
       }
-      navigate(`/routes/${routeId}`);
+      navigate(`/routes/${ascent.route_id}`);
     }
   }
 
