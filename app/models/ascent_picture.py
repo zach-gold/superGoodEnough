@@ -13,7 +13,7 @@ class AscentPicture(db.Model):
     uploaded_by = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
-    pictures = db.relationship('AscentPicture', cascade="all, delete")
+    
 
     def to_dict(self):
         return {
