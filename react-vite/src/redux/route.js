@@ -164,6 +164,7 @@ const routeReducer = (state = initialState, action) => {
     case ADD_ROUTE_IMAGE: {
       const newState = { ...state };
       // newState[action.payload.id] = { ...action.payload };
+      return newState;
     }
     default:
       return state;

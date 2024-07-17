@@ -134,6 +134,7 @@ const ascentReducer = (state = initialState, action) => {
     case ADD_ASCENT_IMAGE: {
       const newState = { ...state };
       // newState[action.payload.id] = { ...action.payload };
+      return newState;
     }
     default:
       return state;

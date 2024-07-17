@@ -69,7 +69,7 @@ const RouteDetails = () => {
             <p>Style: {ascent.style}</p>
             <p>Notes: {ascent.notes}</p>
             <div className="ascent-images">
-              {ascent.images.map((image) => (
+              {ascent.images?.map((image) => (
                 <img
                   key={image.id}
                   src={image.picture_url}
