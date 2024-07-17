@@ -56,7 +56,7 @@ h2 {
 
 .ascent-details p {
     margin: 0 0 5px 0;
-    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .ascent-actions {
