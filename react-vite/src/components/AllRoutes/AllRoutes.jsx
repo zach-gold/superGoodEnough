@@ -5,24 +5,22 @@ import "./AllRoutes.css";
 import { getRoutesThunk } from "../../redux/route";
 
 const AllRoutes = () => {
-  // const [routes, setRoutes] = useState([]);
+  // State to manage loading status
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchRoutes = async () => {
-  //     const response = await fetch("/api/routes");
-  //     const data = await response.json();
-  //     setRoutes(data.Routes);
-  //     setLoading(false);
-  //   };
-
-  //   fetchRoutes();
-  // }, []);
+  // Setting up navigation hook
   const navigate = useNavigate();
+
+  // Setting up dispatch to use Redux actions
   const dispatch = useDispatch();
+
+  // Getting routes from the Redux store
   const routes = useSelector((state) => state.routes);
+
+  // Getting user information from the Redux store
   const user = useSelector((state) => state.session.user);
 
+  // Function to handle adding a new route
   const handleAddRoute = () => {
     if (user) {
       navigate(`/routes/new`);
@@ -31,11 +29,13 @@ const AllRoutes = () => {
     }
   };
 
+  // Fetch all routes when component mounts
   useEffect(() => {
     dispatch(getRoutesThunk());
-    setLoading(false)
+    setLoading(false);
   }, [dispatch]);
 
+  // Show loading message if data is still being fetched
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -49,6 +49,7 @@ const AllRoutes = () => {
         </button>
       </div>
       <div className="routes-list">
+        {/* Mapping through routes to display each one */}
         {Object.values(routes).map((route) => (
           <div key={route.id} className="route-item">
             {route.images.length > 0 && (

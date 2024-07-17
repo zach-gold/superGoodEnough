@@ -5,15 +5,22 @@ import "./AllAscents.css";
 import { getAllAscentsThunk } from "../../redux/ascent";
 
 const AllAscents = () => {
+  // State to manage loading status
   const [loading, setLoading] = useState(true);
+
+  // Setting up dispatch to use Redux actions
   const dispatch = useDispatch();
+
+  // Getting ascents from the Redux store
   const ascents = useSelector((state) => state.ascents);
 
+  // Fetch all ascents when component mounts
   useEffect(() => {
     dispatch(getAllAscentsThunk());
     setLoading(false);
   }, [dispatch]);
 
+  // Show loading message if data is still being fetched
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -22,6 +29,7 @@ const AllAscents = () => {
     <div className="ascents-container">
       <h2>All Ascents</h2>
       <div className="ascents-list">
+        {/* Mapping through ascents to display each one */}
         {Object.values(ascents).map((ascent) => (
           <div key={ascent.id} className="ascent-item">
             {ascent.images.length > 0 && (
@@ -37,7 +45,7 @@ const AllAscents = () => {
               <Link to={`/routes/${ascent.parent_route.id}`}>
                 <h3>{ascent.parent_route.name}</h3>
               </Link>
-                    <p>{new Date(ascent.date).toLocaleDateString()}</p>
+              <p>{new Date(ascent.date).toLocaleDateString()}</p>
               <p>{ascent.style}</p>
               <p>{ascent.notes}</p>
             </div>
