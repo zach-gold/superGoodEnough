@@ -171,4 +171,5 @@
 
 .home-all-ascent-details p {
     margin: 0 0 5px 0;
+    word-wrap: break-word;
 }

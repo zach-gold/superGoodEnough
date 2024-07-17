@@ -55,6 +55,7 @@ h2 {
     margin: 0 0 10px 0;
 }
 
-.all-ascent-details p {
+.ascent-notes {
     margin: 0 0 5px 0;
+    word-break: break-word;
 }

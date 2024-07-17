@@ -37,8 +37,10 @@ const AllAscents = () => {
               <Link to={`/routes/${ascent.parent_route.id}`}>
                 <h3>{ascent.parent_route.name}</h3>
               </Link>
-                    <p>{new Date(ascent.date).toLocaleDateString()}</p>
+              <p>{new Date(ascent.date).toLocaleDateString()}</p>
               <p>{ascent.style}</p>
+            </div>
+            <div className="ascent-notes">
               <p>{ascent.notes}</p>
             </div>
           </div>

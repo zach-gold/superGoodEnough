@@ -23,6 +23,8 @@ const CreateAscent = () => {
 
     if (!date) {
       errors.push("Date is required");
+    } else if (new Date(date) > new Date()) {
+      errors.push("Date cannot be in the future");
     }
 
     if (style.length > 25) {
