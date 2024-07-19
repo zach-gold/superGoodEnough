@@ -119,6 +119,7 @@ const UpdateRoute = () => {
           </div>
           <input
             type="text"
+            className="create-route-input"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -188,7 +189,6 @@ const UpdateRoute = () => {
             </div>
             <input
               type="file"
-
               accept="image/*,application/pdf"
               onChange={handleFileChange}
               id="image-upload"

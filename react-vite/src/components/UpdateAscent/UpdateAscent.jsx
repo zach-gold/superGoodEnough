@@ -96,11 +96,14 @@ const UpdateAscent = () => {
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="form-group">
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <label htmlFor="style">Style</label>
+            <label className="create-ascent-label" htmlFor="style">
+              Style
+            </label>
             {errors.style && <span className="error">{errors.style}</span>}
           </div>
           <input
             type="text"
+            className="create-ascent-input"
             id="style"
             value={style}
             onChange={(e) => setStyle(e.target.value)}
@@ -109,11 +112,14 @@ const UpdateAscent = () => {
         </div>
         <div className="form-group">
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-            <label htmlFor="notes">Notes</label>
+            <label className="create-ascent-label" htmlFor="notes">
+              Notes
+            </label>
             {errors.notes && <span className="error">{errors.notes}</span>}
           </div>
           <textarea
             id="notes"
+            className="create-ascent-input"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="Any additional notes..."
@@ -122,7 +128,7 @@ const UpdateAscent = () => {
         <div className="form-group">
           <div className="photo-div">
             <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-              <label>Photos and video *</label>
+              <label className="create-ascent-label">Photos and video *</label>
               {errors.file && <span className="error">{errors.file}</span>}
             </div>
             <div
