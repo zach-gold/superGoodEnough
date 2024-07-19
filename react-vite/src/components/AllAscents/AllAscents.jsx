@@ -35,11 +35,11 @@ const AllAscents = () => {
             )}
             <div className="details-notes-wrapper">
             <div className="all-ascent-details">
-              <Link to={`/routes/${ascent.parent_route.id}`}>
+              <Link to={`/routes/${ascent.parent_route.id}`} className="ascent-link">
                 <h3>{ascent.parent_route.name}</h3>
               </Link>
               <p>{new Date(ascent.date).toLocaleDateString()}</p>
-              <p>{ascent.style}</p>
+              <p style={{maxWidth:"20%"}}>{ascent.style}</p>
             </div>
             <div className="ascent-notes">
               <p>{ascent.notes}</p>

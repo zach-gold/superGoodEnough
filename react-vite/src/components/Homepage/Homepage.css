@@ -139,7 +139,7 @@
 }
 
 .home-route-location{
-    width: 55%;
+    max-width: 55%;
     word-break: break-word;
 }
 

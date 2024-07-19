@@ -55,6 +55,10 @@ h2 {
 
 .all-ascent-details h3 {
     margin: 0 0 10px 0;
+    /* max-width: 65%; */
+}
+.ascent-link{
+    max-width: 65%;
 }
 
 .ascent-notes {
@@ -65,4 +69,5 @@ h2 {
 .details-notes-wrapper {
     display: flex;
     flex-direction: column;
+    word-break: break-word;
 }

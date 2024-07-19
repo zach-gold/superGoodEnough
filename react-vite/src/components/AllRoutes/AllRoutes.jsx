@@ -64,7 +64,7 @@ const AllRoutes = () => {
               <Link to={`/routes/${route.id}`}>
                 <h3>{route.name}</h3>
               </Link>
-              <p>{route.grade}</p>
+              <p style={{width:"16.5%"}}>{route.grade}</p>
               <p>{route.location}</p>
             </div>
               <p>{route.description}</p>
