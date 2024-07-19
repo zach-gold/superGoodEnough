@@ -16,31 +16,26 @@ const CreateAscent = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const errors = [];
+    const errors = {};
 
     if (!date) {
-      errors.push("Date is required");
+      errors.date = "Date is required";
     } else if (new Date(date) > new Date()) {
-      errors.push("Date cannot be in the future");
+      errors.date = "Date cannot be in the future";
     }
 
     if (style.length > 25) {
-      errors.push("Style must be less than 25 characters");
+      errors.style = "Style must be less than 25 characters";
     }
     if (notes.length > 2000) {
-      errors.push("Notes must be less than characters");
+      errors.notes = "Notes must be less than 2000 characters";
     }
 
     setErrors(errors);
   }, [date, style, notes]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,24 +53,20 @@ const CreateAscent = () => {
     if (response.errors) {
       setErrors(response.errors);
     } else {
-      // let formData = new FormData();
-      // formData.append("image", image);
-
-      // // aws uploads can be a bit slow—displaying
-      // // some sort of loading message is a good idea
       if (image) {
         setImageLoading(true);
-        const imgResponse = await dispatch(thunkAddAscentImage(response.id, image));
+        const imgResponse = await dispatch(
+          thunkAddAscentImage(response.id, image)
+        );
         if (imgResponse.errors) {
           setErrors(imgResponse.errors);
         } else {
-          // history.push("/images");
           navigate(`/routes/${routeId}`);
         }
       }
       navigate(`/routes/${routeId}`);
     }
-  }
+  };
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -95,12 +86,12 @@ const CreateAscent = () => {
         file.type
       )
     ) {
-      setErrors([
-        "File does not have an approved extension: pdf, jpg, jpeg, png, gif",
-      ]);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        file: "File does not have an approved extension: pdf, jpg, jpeg, png, gif",
+      }));
     } else {
       setImage(file);
-      setErrors([]);
     }
   };
 
@@ -112,17 +103,16 @@ const CreateAscent = () => {
     <div className="create-ascent-container">
       <h2>Add Your Ascent</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        {errors.length > 0 && (
-          <ul>
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-        )}
         <div className="form-group">
-          <label htmlFor="date">Date</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-ascent-label" htmlFor="date">
+              Date
+            </label>
+            {errors.date && <span className="error">{errors.date}</span>}
+          </div>
           <input
             type="date"
+            className="create-ascent-input"
             id="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -130,9 +120,15 @@ const CreateAscent = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="style">Style</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-ascent-label" htmlFor="style">
+              Style
+            </label>
+            {errors.style && <span className="error">{errors.style}</span>}
+          </div>
           <input
             type="text"
+            className="create-ascent-input"
             id="style"
             value={style}
             onChange={(e) => setStyle(e.target.value)}
@@ -140,9 +136,15 @@ const CreateAscent = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="notes">Notes</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-ascent-label" htmlFor="notes">
+              Notes
+            </label>
+            {errors.notes && <span className="error">{errors.notes}</span>}
+          </div>
           <textarea
             id="notes"
+            className="create-ascent-input"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="Any additional notes..."
@@ -150,7 +152,10 @@ const CreateAscent = () => {
         </div>
         <div className="form-group">
           <div className="photo-div">
-            <label>Photos and video *</label>
+            <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+              <label className="create-ascent-label">Photos and video *</label>
+              {errors.file && <span className="error">{errors.file}</span>}
+            </div>
             <div
               className="dropzone"
               onDrop={handleDrop}

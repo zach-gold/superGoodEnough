@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAscentThunk,thunkAddAscentImage } from "../../redux/ascent";
-import "../CreateAscent/CreateAscent";
+import { updateAscentThunk, thunkAddAscentImage } from "../../redux/ascent";
+import "../CreateAscent/CreateAscent.css";
 
 const UpdateAscent = () => {
   const { ascentId } = useParams();
@@ -11,30 +11,25 @@ const UpdateAscent = () => {
   const user = useSelector((state) => state.session.user);
   const ascent = useSelector((state) => state.ascents[ascentId]);
 
-  // const [date, setDate] = useState(ascent?.date);
   const [style, setStyle] = useState(ascent?.style);
   const [notes, setNotes] = useState(ascent?.notes);
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const errors = [];
-
-    // if (!date) {
-    //   errors.push("Date is required");
-    // }
+    const errors = {};
 
     if (style.length > 25) {
-      errors.push("Style must be less than 25 characters");
+      errors.style = "Style must be less than 25 characters";
     }
     if (notes.length > 2000) {
-      errors.push("Notes must be less than characters");
+      errors.notes = "Notes must be less than 2000 characters";
     }
 
     setErrors(errors);
-  }, [ style, notes]);
+  }, [style, notes]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,11 +44,6 @@ const UpdateAscent = () => {
     if (response.errors) {
       setErrors(response.errors);
     } else {
-      // let formData = new FormData();
-      // formData.append("image", image);
-
-      // // aws uploads can be a bit slow—displaying
-      // // some sort of loading message is a good idea
       if (image) {
         setImageLoading(true);
         const imgResponse = await dispatch(
@@ -62,13 +52,12 @@ const UpdateAscent = () => {
         if (imgResponse.errors) {
           setErrors(imgResponse.errors);
         } else {
-          // history.push("/images");
           navigate(`/routes/${ascent.route_id}`);
         }
       }
       navigate(`/routes/${ascent.route_id}`);
     }
-  }
+  };
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -88,12 +77,12 @@ const UpdateAscent = () => {
         file.type
       )
     ) {
-      setErrors([
-        "File does not have an approved extension: pdf, jpg, jpeg, png, gif",
-      ]);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        file: "File does not have an approved extension: pdf, jpg, jpeg, png, gif",
+      }));
     } else {
       setImage(file);
-      setErrors([]);
     }
   };
 
@@ -105,25 +94,11 @@ const UpdateAscent = () => {
     <div className="create-ascent-container">
       <h2>Edit Your Ascent</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        {errors.length > 0 && (
-          <ul>
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-        )}
-        {/* <div className="form-group">
-          <label htmlFor="date">Date</label>
-          <input
-            type="date"
-            id="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-        </div> */}
         <div className="form-group">
-          <label htmlFor="style">Style</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="style">Style</label>
+            {errors.style && <span className="error">{errors.style}</span>}
+          </div>
           <input
             type="text"
             id="style"
@@ -133,7 +108,10 @@ const UpdateAscent = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="notes">Notes</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="notes">Notes</label>
+            {errors.notes && <span className="error">{errors.notes}</span>}
+          </div>
           <textarea
             id="notes"
             value={notes}
@@ -143,7 +121,10 @@ const UpdateAscent = () => {
         </div>
         <div className="form-group">
           <div className="photo-div">
-            <label>Photos and video *</label>
+            <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+              <label>Photos and video *</label>
+              {errors.file && <span className="error">{errors.file}</span>}
+            </div>
             <div
               className="dropzone"
               onDrop={handleDrop}

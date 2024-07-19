@@ -59,15 +59,16 @@ const AllRoutes = () => {
                   className="route-image"
                 />
               </div>
-            )}
-            <div className="route-details">
+            )}<div className ="route-details-and-description-container">
+            <div className="all-routes-route-details">
               <Link to={`/routes/${route.id}`}>
                 <h3>{route.name}</h3>
               </Link>
               <p>{route.grade}</p>
               <p>{route.location}</p>
             </div>
-            <p>{route.description}</p>
+              <p>{route.description}</p>
+              </div>
           </div>
         ))}
       </div>

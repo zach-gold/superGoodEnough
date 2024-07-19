@@ -121,7 +121,7 @@
 
 .home-route-details {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     width: 500px;
     margin-right: 40px;
@@ -159,7 +159,7 @@
 
 .home-all-ascent-details {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     width: 500px;
     margin-right: 40px;
@@ -171,5 +171,12 @@
 
 .home-all-ascent-details p {
     margin: 0 0 5px 0;
-    word-wrap: break-word;
+    /* word-wrap: break-word; */
+}
+
+.home-ascent-notes{
+    overflow: hidden;
+white-space: nowrap;
+    text-overflow: ellipsis;
+    /* word-break: break-word; */
 }

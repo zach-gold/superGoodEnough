@@ -22,14 +22,11 @@ form {
     margin-bottom: 15px;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
+.create-route-label {
+    width: 100px;
+    margin-right: 10px;
 }
-
-input[type="text"],
-input[type="number"],
-textarea {
+.create-route-input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -55,6 +52,10 @@ button:hover {
     background-color: #0056b3;
 }
 
+button:disabled {
+    background-color: gray;
+}
+
 ul {
     list-style: none;
     padding: 0;
@@ -65,18 +66,20 @@ ul {
   border-radius: 5px;
   text-align: left;
 }
+
 .dropzone {
   border: 2px dashed #ccc;
   text-align: center;
   padding: 5px;
 }
-#image-upload{
-  border:none;
+
+#image-upload {
+  border: none;
 }
+
 .upload-button {
   border: 2px dashed #ccc;
 }
-
 
 .photo-div input[type="file"] {
   display: block;
@@ -88,4 +91,9 @@ ul {
   margin-top: 10px;
   font-size: 14px;
   color: #666;
+}
+
+.error {
+  color: red;
+  margin-left: 10px;
 }

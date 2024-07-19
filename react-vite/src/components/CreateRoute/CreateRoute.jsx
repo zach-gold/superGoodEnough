@@ -17,27 +17,27 @@ const CreateRoute = () => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
-
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const errors = [];
+    const errors = {};
 
     if (!name) {
-      errors.push("Name is required");
+      errors.name = "Name is required";
     }
 
-    if (location.length >255) {
-      errors.push("Location must be less than 255 characters");
+    if (location.length > 255) {
+      errors.location = "Location must be less than 255 characters";
     }
     if (description.length > 2000) {
-      errors.push("Description must be less than 2000 characters");
+      errors.description = "Description must be less than 2000 characters";
     }
 
     const gradeRegexEuro = /^[0-9]{1,2}[A-Za-z]?$/;
     const gradeRegexNA = /^5\.\d+(?:[abcd]?[\+\-]?)?$/;
     if (grade && !gradeRegexEuro.test(grade) && !gradeRegexNA.test(grade)) {
-      errors.push("Grade must be a valid format (e.g., 5, 5a, 10, 12d, 5.10a, 5.11)");
+      errors.grade =
+        "Grade must be a valid format (e.g., 5, 5a, 10, 12d, 5.10a, 5.11)";
     }
 
     setErrors(errors);
@@ -57,26 +57,20 @@ const CreateRoute = () => {
     let response = await dispatch(createRouteThunk(newRoute));
     if (response?.errors) {
       setErrors(response.errors);
-      console.log(errors)
+      console.log(errors);
     } else {
-      // let formData = new FormData();
-      // formData.append("image", image);
-
-      // // aws uploads can be a bit slow—displaying
-      // // some sort of loading message is a good idea
       if (image) {
         setImageLoading(true);
         const imgResponse = await dispatch(thunkAddRouteImage(response, image));
         if (imgResponse.errors) {
           setErrors(imgResponse.errors);
         } else {
-          // history.push("/images");
           navigate(`/routes/${response}`);
         }
       }
       navigate(`/routes/${response}`);
     }
-  }
+  };
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -96,12 +90,12 @@ const CreateRoute = () => {
         file.type
       )
     ) {
-      setErrors([
-        "File does not have an approved extension: pdf, jpg, jpeg, png, gif",
-      ]);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        file: "File does not have an approved extension: pdf, jpg, jpeg, png, gif",
+      }));
     } else {
       setImage(file);
-      setErrors([]);
     }
   };
 
@@ -113,17 +107,16 @@ const CreateRoute = () => {
     <div className="create-route-container">
       <h2>Add New Route</h2>
       <form onSubmit={handleSubmit}>
-        {errors.length > 0 && (
-          <ul>
-            {errors.map((error, idx) => (
-              <li key={idx}>{error}</li>
-            ))}
-          </ul>
-        )}
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-route-label" htmlFor="name">
+              Name
+            </label>
+            {errors.name && <span className="error">{errors.name}</span>}
+          </div>
           <input
             type="text"
+            className="create-route-input"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -131,44 +124,59 @@ const CreateRoute = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="grade">Grade (Optional)</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-route-label" htmlFor="grade">
+              Grade (Optional)
+            </label>
+            {errors.grade && <span className="error">{errors.grade}</span>}
+          </div>
           <input
             type="text"
+            className="create-route-input"
             id="grade"
             value={grade}
             onChange={(e) => setGrade(e.target.value)}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="location">Location (Optional)</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-route-label" htmlFor="location">
+              Location (Optional)
+            </label>
+            {errors.location && (
+              <span className="error">{errors.location}</span>
+            )}
+          </div>
           <input
             type="text"
+            className="create-route-input"
             id="location"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
         </div>
-        {/* <div className="form-group">
-          <label htmlFor="areaId">Area ID</label>
-          <input
-            type="number"
-            id="areaId"
-            value={areaId}
-            onChange={(e) => setAreaId(e.target.value)}
-            required
-          />
-        </div> */}
         <div className="form-group">
-          <label htmlFor="description">Description (Optional)</label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-route-label" htmlFor="description">
+              Description (Optional)
+            </label>
+            {errors.description && (
+              <span className="error">{errors.description}</span>
+            )}
+          </div>
           <textarea
             id="description"
+            className="create-route-input"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
         <div className="form-group">
           <div className="photo-div">
-            <label>Photos and video *</label>
+            <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+              <label className="create-route-label">Photos and video *</label>
+              {errors.file && <span className="error">{errors.file}</span>}
+            </div>
             <div
               className="dropzone"
               onDrop={handleDrop}

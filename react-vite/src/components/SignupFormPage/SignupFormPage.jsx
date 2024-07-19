@@ -18,9 +18,6 @@ function SignupFormPage() {
   useEffect(() => {
     let errObj = {};
 
-    //comparison regex : [any char, num, symbol] + @[any char or num] + .[any char or num]
-    //ex: demo@aa.io would match, as would demo@aa.i, but demo@aa. would not match, nor would demo@aa and so on
-
     let validRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-]/;
     if (
@@ -50,7 +47,6 @@ function SignupFormPage() {
       errObj.confirmPassword = "Please ensure both passwords match";
 
     setErrors(errObj);
-    // console.log(errors)
   }, [email, username, password, confirmPassword]);
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
@@ -85,49 +81,66 @@ function SignupFormPage() {
       <h1>Sign Up</h1>
       {errors.server && <p className="errors">{errors.server}</p>}
       <form onSubmit={handleSubmit} className="login-form">
-        <label id="login-col">
-          Email
+        <div className="form-group">
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="email">Email</label>
+            {errors.email && <span className="error">{errors.email}</span>}
+          </div>
           <input
             type="text"
+            id="email"
+            className="email-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        {errors.email && <p className="errors">{"* " + errors.email}</p>}
-        <label id="login-col">
-          Username
+        </div>
+        <div className="form-group">
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="username">Username</label>
+            {errors.username && (
+              <span className="error">{errors.username}</span>
+            )}
+          </div>
           <input
             type="text"
+            id="username"
+            className="email-input"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
-        {errors.username && <p className="errors">{"* " + errors.username}</p>}
-        <label id="login-col">
-          Password
+        </div>
+        <div className="form-group">
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="password">Password</label>
+            {errors.password && (
+              <span className="error">{errors.password}</span>
+            )}
+          </div>
           <input
             type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        {errors.password && <p className="errors">{"* " + errors.password}</p>}
-        <label id="login-col" className="last">
-          Confirm Password
+        </div>
+        <div className="form-group last">
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            {errors.confirmPassword && (
+              <span className="error">{errors.confirmPassword}</span>
+            )}
+          </div>
           <input
             type="password"
+            id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
-        {errors.confirmPassword && (
-          <p className="errors">{"* " + errors.confirmPassword}</p>
-        )}
-
+        </div>
         <button id="signup-button" type="submit" disabled={block}>
           Sign Up
         </button>

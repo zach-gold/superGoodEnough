@@ -16,9 +16,6 @@ function LoginFormPage() {
   useEffect(() => {
     let errObj = {};
 
-    //comparison regex : [any char, num, symbol] + @[any char or num] + .[any char or num]
-    //ex: demo@aa.io would match, as would demo@aa.i, but demo@aa. would not match, nor would demo@aa and so on
-
     let validRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-]/;
     if (
@@ -39,7 +36,6 @@ function LoginFormPage() {
       errObj.password = "Please provide a password of at least 6 characters";
 
     setErrors(errObj);
-    // console.log(errors)
   }, [email, password]);
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
@@ -80,31 +76,36 @@ function LoginFormPage() {
     <div className="login-holder">
       <div className="login-container">
         <h1>Log In</h1>
-        {errors.length > 0 &&
-          errors.map((message) => <p key={message}>{message}</p>)}
         <form onSubmit={handleSubmit} className="login-form">
-          <label id="login-col">
-            Email
+          <div className="form-group">
+            <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+              <label htmlFor="email">Email</label>
+              {errors.email && <span className="error">{errors.email}</span>}
+            </div>
             <input
               type="text"
+              id="email"
+              className="email-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </label>
-          {errors.email && <p className="errors">{"* " + errors.email}</p>}
-          <label id="login-col">
-            Password
+          </div>
+          <div className="form-group">
+            <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+              <label htmlFor="password">Password</label>
+              {errors.password && (
+                <span className="error">{errors.password}</span>
+              )}
+            </div>
             <input
               type="password"
+              id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-          </label>
-          {errors.password && (
-            <p className="errors">{"* " + errors.password}</p>
-          )}
+          </div>
           <button id="login-button" type="submit" disabled={block}>
             Log In
           </button>

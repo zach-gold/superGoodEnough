@@ -120,7 +120,7 @@ const Homepage = () => {
                     </Link>
                     <p>{new Date(ascent.date).toLocaleDateString()}</p>
                     <p>{ascent.style}</p>
-                    <p>{ascent.notes}</p>
+                    <p className="home-ascent-notes">{ascent.notes}</p>
                   </div>
                 </div>
               ))}

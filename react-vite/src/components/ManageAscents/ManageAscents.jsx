@@ -61,7 +61,7 @@ const ManageAscents = () => {
                 />
               </div>
             )}
-            <div className="ascent-details">
+            <div className="manage-ascent-details">
               <h3>{ascent.parent_route.name}</h3>
               <p>Date: {new Date(ascent.date).toLocaleDateString()}</p>
               <p>Style: {ascent.style}</p>

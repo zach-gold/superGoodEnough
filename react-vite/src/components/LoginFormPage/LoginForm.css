@@ -27,7 +27,6 @@
   color: white;
   border: none;
   border-radius: 15px;
-  /* width: 300px; */
   height: 40px;
   justify-self: center;
   cursor: pointer;
@@ -54,9 +53,19 @@
   color: red;
 }
 
-input[type="password"]{
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.form-group {
+  margin-bottom: 20px;
+}
+
+.email-input,
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
 }

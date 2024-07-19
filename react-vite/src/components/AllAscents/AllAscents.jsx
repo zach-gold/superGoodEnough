@@ -33,6 +33,7 @@ const AllAscents = () => {
                 />
               </div>
             )}
+            <div className="details-notes-wrapper">
             <div className="all-ascent-details">
               <Link to={`/routes/${ascent.parent_route.id}`}>
                 <h3>{ascent.parent_route.name}</h3>
@@ -42,7 +43,8 @@ const AllAscents = () => {
             </div>
             <div className="ascent-notes">
               <p>{ascent.notes}</p>
-            </div>
+              </div>
+              </div>
           </div>
         ))}
       </div>
