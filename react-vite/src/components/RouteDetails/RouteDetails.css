@@ -13,11 +13,20 @@
 .route-header {
     text-align: center;
     margin-bottom: 20px;
+    word-break: break-word;
+}
+
+.route-header p {
+    word-break: break-word;
 }
 
 .route-images, .route-description, .route-ascents {
     width: 100%;
     margin-bottom: 20px;
+}
+
+.route-description p {
+    word-break: break-word;
 }
 
 .route-images img, .ascent-images img {

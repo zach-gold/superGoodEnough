@@ -26,6 +26,10 @@ const CreateRoute = () => {
       errors.name = "Name is required";
     }
 
+    if (name.length > 75) {
+      errors.name = "Name must be 75 characters or less";
+    }
+
     if (location.length > 255) {
       errors.location = "Location must be less than 255 characters";
     }

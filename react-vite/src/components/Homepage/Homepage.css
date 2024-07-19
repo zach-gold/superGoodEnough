@@ -54,7 +54,7 @@
     border-radius: 15px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;  
+    background-position: center;
 }
 
 .featured-info {
@@ -130,10 +130,17 @@
 
 .home-route-details h3 {
     margin: 0 0 10px 0;
+    word-break: break-word;
+
 }
 
 .home-route-details p {
     margin: 0 0 5px 0;
+}
+
+.home-route-location{
+    width: 55%;
+    word-break: break-word;
 }
 
 .home-ascents-list {
@@ -169,6 +176,8 @@
 
 .home-all-ascent-details h3 {
     margin: 0 0 10px 0;
+    word-break: break-word;
+
 }
 
 .home-all-ascent-details p {
@@ -177,8 +186,9 @@
 }
 
 .home-ascent-notes{
+    width: 65%;
     overflow: hidden;
 white-space: nowrap;
     text-overflow: ellipsis;
-    /* word-break: break-word; */
+    word-break: break-word;
 }

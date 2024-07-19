@@ -104,7 +104,7 @@ const Homepage = () => {
                       <h3>{route.name}</h3>
                     </Link>
                     <p>{route.grade}</p>
-                    <p>{route.location}</p>
+                    <p className="home-route-location">{route.location}</p>
                   </div>
                 </div>
               ))}
