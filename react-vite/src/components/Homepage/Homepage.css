@@ -52,9 +52,9 @@
     justify-content: center;
     position: relative;
     border-radius: 15px;
-    /* background-size: contain;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;   */
+    background-position: center;  
 }
 
 .featured-info {

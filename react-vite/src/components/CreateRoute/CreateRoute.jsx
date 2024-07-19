@@ -106,7 +106,7 @@ const CreateRoute = () => {
   return (
     <div className="create-route-container">
       <h2>Add New Route</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="form-group">
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
             <label className="create-route-label" htmlFor="name">
