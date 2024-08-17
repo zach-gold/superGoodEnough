@@ -62,7 +62,7 @@ const UpdateRoute = () => {
     let response = await dispatch(updateRouteThunk(updatedRoute, routeId));
     if (response?.errors) {
       setErrors(response.errors);
-      console.log(errors);
+      // console.log(errors);
     } else {
       if (image) {
         setImageLoading(true);

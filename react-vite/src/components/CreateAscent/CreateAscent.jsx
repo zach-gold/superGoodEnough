@@ -47,7 +47,7 @@ const CreateAscent = () => {
       notes: notes,
     };
 
-    console.log(newAscent);
+    // console.log(newAscent);
 
     const response = await dispatch(createAscentThunk(newAscent, routeId));
     if (response.errors) {

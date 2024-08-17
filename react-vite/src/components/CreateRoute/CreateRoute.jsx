@@ -61,7 +61,7 @@ const CreateRoute = () => {
     let response = await dispatch(createRouteThunk(newRoute));
     if (response?.errors) {
       setErrors(response.errors);
-      console.log(errors);
+      // console.log(errors);
     } else {
       if (image) {
         setImageLoading(true);
