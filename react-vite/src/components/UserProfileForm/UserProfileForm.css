@@ -1,0 +1,41 @@
+.user-profile-form-container {
+  width: 500px;
+  margin: 0 auto;
+  padding: 50px 0;
+}
+
+.user-profile-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: red;
+  margin-top: 10px;
+}
