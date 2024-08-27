@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getOneRouteThunk } from "../../redux/route";
 import "./RouteDetails.css";
@@ -44,7 +44,10 @@ const RouteDetails = () => {
         <h1>{route.name}</h1>
         <p>Grade: {route.grade}</p>
         <p>Location: {route.location}</p>
-        <p>Created by: {route.author}</p>
+        <p>
+          Created by:{" "}
+          <Link to={`/users/${route.created_by}`}>{route.author}</Link>
+        </p>
       </div>
       <div className="route-images">
         <h2>Images</h2>
@@ -64,7 +67,12 @@ const RouteDetails = () => {
         <h2>Ascents</h2>
         {route.ascents?.map((ascent) => (
           <div key={ascent.id} className="ascent-details">
-            <p>Climber: {ascent.author.username}</p>
+            <p>
+              Climber:{" "}
+              <Link to={`/users/${ascent.user_id}`}>
+                {ascent.author.username}
+              </Link>
+            </p>
             <p>Date: {new Date(ascent.date).toLocaleDateString()}</p>
             <p>Style: {ascent.style}</p>
             <p>Notes: {ascent.notes}</p>

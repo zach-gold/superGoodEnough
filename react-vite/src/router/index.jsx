@@ -1,6 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
+import UserProfilePage from '../components/UserProfilePage/UserProfilePage';
+import UserProfileForm from '../components/UserProfileForm/UserProfileForm';
 import Homepage from '../components/Homepage/Homepage';
 import AllRoutes from '../components/AllRoutes';
 import AllAscents from '../components/AllAscents';
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: "users/:userId/edit",
+        element: <UserProfileForm />,
+      },
+      {
+        path: "users/:userId",
+        element: <UserProfilePage />,
       },
       {
         path: "routes",

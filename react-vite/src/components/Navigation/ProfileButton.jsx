@@ -51,6 +51,11 @@ function ProfileButton() {
           <li>{user.username}</li>
           <li>{user.email}</li>
           <li>
+            <Link className="nav-link" to={`/users/${user.id}`}>
+              My Profile
+            </Link>
+          </li>
+          <li>
             <Link className="nav-link" to="/routes/manage">
               Manage Routes
             </Link>
