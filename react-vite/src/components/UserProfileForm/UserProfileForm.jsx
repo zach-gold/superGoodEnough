@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   getUsersThunk,
   updateUserThunk,
@@ -10,12 +10,13 @@ import "./UserProfileForm.css";
 
 const UserProfileForm = () => {
   const { userId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const user = useSelector((state) => state.users[userId]);
 
-//   const [username, setUsername] = useState(user?.username || "");
-//   const [email, setEmail] = useState(user?.email || "");
+  //   const [username, setUsername] = useState(user?.username || "");
+  //   const [email, setEmail] = useState(user?.email || "");
   const [firstName, setFirstName] = useState(user?.first_name || "");
   const [lastName, setLastName] = useState(user?.last_name || "");
   const [bio, setBio] = useState(user?.bio || "");
@@ -57,6 +58,7 @@ const UserProfileForm = () => {
     if (result) {
       setErrors(result);
     }
+    navigate(`/users/${userId}`);
   };
 
   const handleDelete = () => {
@@ -69,48 +71,56 @@ const UserProfileForm = () => {
 
   return (
     <div className="user-profile-form-container">
-      <h1>Update Profile</h1>
+      <h2>Update Profile</h2>
       <form onSubmit={handleSubmit} className="user-profile-form">
         <div className="form-group">
-          <label htmlFor="first_name">First Name</label>
+          <label htmlFor="first_name" className="create-route-label">
+            First Name
+          </label>
           <input
             type="text"
             id="first_name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            className="create-route-input"
           />
-          {errors.first_name && (
-            <span className="error">{errors.first_name}</span>
-          )}
+          {errors.first_name && <span className="error">{errors.first_name}</span>}
         </div>
         <div className="form-group">
-          <label htmlFor="last_name">Last Name</label>
+          <label htmlFor="last_name" className="create-route-label">
+            Last Name
+          </label>
           <input
             type="text"
             id="last_name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            className="create-route-input"
           />
-          {errors.last_name && (
-            <span className="error">{errors.last_name}</span>
-          )}
+          {errors.last_name && <span className="error">{errors.last_name}</span>}
         </div>
         <div className="form-group">
-          <label htmlFor="bio">Bio</label>
+          <label htmlFor="bio" className="create-route-label">
+            Bio
+          </label>
           <textarea
             id="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
+            className="create-route-input"
           />
           {errors.bio && <span className="error">{errors.bio}</span>}
         </div>
         <div className="form-group">
-          <label htmlFor="profile_picture_url">Profile Picture URL</label>
+          <label htmlFor="profile_picture_url" className="create-route-label">
+            Profile Picture URL
+          </label>
           <input
             type="url"
             id="profile_picture_url"
             value={profilePictureUrl || ""}
             onChange={(e) => setProfilePictureUrl(e.target.value)}
+            className="create-route-input"
           />
           {errors.profile_picture_url && (
             <span className="error">{errors.profile_picture_url}</span>
