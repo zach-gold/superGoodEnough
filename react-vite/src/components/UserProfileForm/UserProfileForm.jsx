@@ -13,6 +13,7 @@ const UserProfileForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const user = useSelector((state) => state.users[userId]);
 
   //   const [username, setUsername] = useState(user?.username || "");
@@ -61,9 +62,18 @@ const UserProfileForm = () => {
     navigate(`/users/${userId}`);
   };
 
-  const handleDelete = () => {
-    dispatch(deleteUserThunk(userId));
-  };
+    const handleDelete = () => {
+      setShowModal(true);
+    };
+
+    const confirmDelete = () => {
+      dispatch(deleteUserThunk(userId));
+      navigate("/");
+    };
+
+    const cancelDelete = () => {
+      setShowModal(false);
+    };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -131,6 +141,19 @@ const UserProfileForm = () => {
           Delete Profile
         </button>
       </form>
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>Are you sure you want to delete your profile?</p>
+            <button onClick={confirmDelete} className="delete-button">
+              Yes, Delete
+            </button>
+            <button onClick={cancelDelete} className="cancel-button">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
