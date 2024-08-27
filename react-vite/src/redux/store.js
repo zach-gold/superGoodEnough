@@ -8,11 +8,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import routeReducer from "./route";
 import ascentReducer from "./ascent";
+import userReducer from "./user";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   routes: routeReducer,
-  ascents: ascentReducer
+  ascents: ascentReducer,
+  users: userReducer
 });
 
 let enhancer;
