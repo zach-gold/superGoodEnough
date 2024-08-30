@@ -1,4 +1,4 @@
-# HeapLeak
+# SuperGoodEnough
 
 Welcome to the SuperGoodEnough README! SuperGoodEnough is a partial clone of theCrag.com, built and maintained by Zach Gold
 
@@ -790,5 +790,3 @@ Delete an answer if the user is logged in and is the owner of the ascent.
   "id": null
 }
 ```
-
-
