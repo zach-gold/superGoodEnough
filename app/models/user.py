@@ -17,9 +17,11 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(25))
     last_name = db.Column(db.String(25))
     bio = db.Column(db.String(2000))
-    profile_picture_url = db.Column(db.Text)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now(), onupdate=db.func.now())
+
+    picture = db.relationship('UserPicture', cascade="all, delete")
+
 
     @property
     def password(self):
@@ -40,7 +42,6 @@ class User(db.Model, UserMixin):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'bio': self.bio,
-            'profile_picture_url': self.profile_picture_url,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
