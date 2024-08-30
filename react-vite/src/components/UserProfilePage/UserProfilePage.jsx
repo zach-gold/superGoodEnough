@@ -74,7 +74,7 @@ const UserProfilePage = () => {
       </div>
       <div className="profile-container">
         <img
-          src={user.image[0].picture_url || "/default-profile.png"}
+          src={user.image[0]?.picture_url || "/default-profile.png"}
           alt="Profile"
           className="profile-picture"
         />
