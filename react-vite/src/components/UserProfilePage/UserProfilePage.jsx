@@ -34,9 +34,6 @@ const UserProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  // const [image, setImage] = useState(null);
-  // const [imageUrl, setImageUrl] = useState("");
-  // const [imageLoading, setImageLoading] = useState(false);
   const user = useSelector((state) => state.users[userId]);
   const routes = useSelector((state) => state.routes);
   let userRoutes = filterRouteById(routes, userId);
@@ -77,7 +74,7 @@ const UserProfilePage = () => {
       </div>
       <div className="profile-container">
         <img
-          src={user.profile_picture_url || "/default-profile.png"}
+          src={user.image[0].picture_url || "/default-profile.png"}
           alt="Profile"
           className="profile-picture"
         />
