@@ -34,9 +34,6 @@ const UserProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  // const [image, setImage] = useState(null);
-  // const [imageUrl, setImageUrl] = useState("");
-  // const [imageLoading, setImageLoading] = useState(false);
   const user = useSelector((state) => state.users[userId]);
   const routes = useSelector((state) => state.routes);
   let userRoutes = filterRouteById(routes, userId);

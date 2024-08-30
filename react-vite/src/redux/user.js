@@ -82,7 +82,7 @@ export const thunkAddUserImage = (userId, image) => async (dispatch) => {
   });
   if (res.ok) {
     const userImage = await res.json();
-    dispatch(addUserImage(userId, userImage));
+    dispatch(addUserImage(userImage));
     return userImage; // return the user image data
   } else {
     const error = await res.json();

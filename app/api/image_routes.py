@@ -73,7 +73,7 @@ def upload_ascent_image(ascentId):
 
 @image_routes.route("/user/<int:userId>", methods=["POST"])
 @login_required
-def upload_user_image():
+def upload_user_image(userId):
     form = ImageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     print(form.errors)

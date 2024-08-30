@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   getUsersThunk,
   updateUserThunk,
-  deleteUserThunk,
+  deleteUserThunk, thunkAddUserImage
 } from "../../redux/user";
 import "./UserProfileForm.css";
 
@@ -14,6 +14,9 @@ const UserProfileForm = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
   const user = useSelector((state) => state.users[userId]);
 
   //   const [username, setUsername] = useState(user?.username || "");
@@ -52,28 +55,70 @@ const UserProfileForm = () => {
       email: user.email,
       first_name: firstName,
       last_name: lastName,
-      bio: bio,
-      profile_picture_url: profilePictureUrl,
+      bio: bio
     };
     const result = await dispatch(updateUserThunk(updatedUser, userId));
-    if (result) {
-      setErrors(result);
+    if (result.errors) {
+      setErrors(result.errors);
+      console.log(result.errors)
+    } else {
+      if (image) {
+        setImageLoading(true);
+        const imgResponse = await dispatch(thunkAddUserImage(result, image));
+        if (imgResponse.errors) {
+          setErrors(imgResponse.errors);
+        } else {
+          navigate(`/users/${result}`);
+        }
+      }
+      console.log("navigating")
+      navigate(`/users/${userId}`);
     }
-    navigate(`/users/${userId}`);
   };
 
-    const handleDelete = () => {
-      setShowModal(true);
-    };
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    setImage(file);
+  };
 
-    const confirmDelete = () => {
-      dispatch(deleteUserThunk(userId));
-      navigate("/");
-    };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    handleFile(file);
+  };
 
-    const cancelDelete = () => {
-      setShowModal(false);
-    };
+  const handleFile = (file) => {
+    if (
+      file &&
+      !["image/jpeg", "image/png", "image/gif", "application/pdf"].includes(
+        file.type
+      )
+    ) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        file: "File does not have an approved extension: pdf, jpg, jpeg, png, gif",
+      }));
+    } else {
+      setImage(file);
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDelete = () => {
+    setShowModal(true);
+  };
+
+  const confirmDelete = () => {
+    dispatch(deleteUserThunk(userId));
+    navigate("/");
+  };
+
+  const cancelDelete = () => {
+    setShowModal(false);
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -94,7 +139,9 @@ const UserProfileForm = () => {
             onChange={(e) => setFirstName(e.target.value)}
             className="create-route-input"
           />
-          {errors.first_name && <span className="error">{errors.first_name}</span>}
+          {errors.first_name && (
+            <span className="error">{errors.first_name}</span>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="last_name" className="create-route-label">
@@ -107,7 +154,9 @@ const UserProfileForm = () => {
             onChange={(e) => setLastName(e.target.value)}
             className="create-route-input"
           />
-          {errors.last_name && <span className="error">{errors.last_name}</span>}
+          {errors.last_name && (
+            <span className="error">{errors.last_name}</span>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="bio" className="create-route-label">
@@ -121,20 +170,34 @@ const UserProfileForm = () => {
           />
           {errors.bio && <span className="error">{errors.bio}</span>}
         </div>
-        <div className="form-group">
-          <label htmlFor="profile_picture_url" className="create-route-label">
-            Profile Picture URL
-          </label>
+        <div className="photo-div">
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label className="create-route-label">Photos and video *</label>
+            {errors.file && <span className="error">{errors.file}</span>}
+          </div>
+          <div
+            className="dropzone"
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+          >
+            {image ? image.name : "Drag and drop an image"}
+          </div>
           <input
-            type="url"
-            id="profile_picture_url"
-            value={profilePictureUrl || ""}
-            onChange={(e) => setProfilePictureUrl(e.target.value)}
-            className="create-route-input"
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={handleFileChange}
+            id="image-upload"
+            className="upload-button"
           />
-          {errors.profile_picture_url && (
-            <span className="error">{errors.profile_picture_url}</span>
+          {imageUrl && (
+            <p>
+              Image URL:{" "}
+              <a href={imageUrl} target="_blank" rel="noopener noreferrer">
+                {imageUrl}
+              </a>
+            </p>
           )}
+          {imageLoading && <p>Loading...</p>}
         </div>
         <button type="submit">Update Profile</button>
         <button type="button" onClick={handleDelete} className="delete-button">
