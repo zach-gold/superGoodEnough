@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import User, db
+from app.models import User, db, UserPicture
 from app.forms import UserProfileForm
 
 user_routes = Blueprint('users', __name__)
@@ -13,6 +13,8 @@ def users():
     Query for all users and returns them in a list of user dictionaries
     """
     users = [user.to_dict() for user in User.query.all()]
+    for user in users:
+        user['image'] = [x.to_dict() for x in UserPicture.query.filter_by(uploaded_by = user['id']).all()]
     # print(users)
     return users
 
