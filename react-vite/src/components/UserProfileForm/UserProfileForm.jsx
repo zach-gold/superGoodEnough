@@ -4,8 +4,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   getUsersThunk,
   updateUserThunk,
-  deleteUserThunk, thunkAddUserImage
+  deleteUserThunk,
+  thunkAddUserImage,
 } from "../../redux/user";
+import { thunkLogout } from "../../redux/session";
 import "./UserProfileForm.css";
 
 const UserProfileForm = () => {
@@ -18,9 +20,6 @@ const UserProfileForm = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const user = useSelector((state) => state.users[userId]);
-
-  //   const [username, setUsername] = useState(user?.username || "");
-  //   const [email, setEmail] = useState(user?.email || "");
   const [firstName, setFirstName] = useState(user?.first_name || "");
   const [lastName, setLastName] = useState(user?.last_name || "");
   const [bio, setBio] = useState(user?.bio || "");
@@ -29,7 +28,17 @@ const UserProfileForm = () => {
   );
   const [errors, setErrors] = useState({});
 
-  // console.log(user);
+  useEffect(() => {
+    const newErrors = {};
+    if (firstName && firstName.length > 25)
+      newErrors.first_name = "First name cannot be more than 25 characters";
+    if (lastName && lastName.length > 25)
+      newErrors.last_name = "Last name cannot be more than 25 characters";
+    if (bio && bio.length > 2000)
+      newErrors.bio = "Bio must be less than 2000 characters";
+
+    setErrors(newErrors);
+  }, [firstName, lastName, bio]);
 
   useEffect(() => {
     dispatch(getUsersThunk());
@@ -38,8 +47,6 @@ const UserProfileForm = () => {
 
   useEffect(() => {
     if (user) {
-      //   setUsername(user.username);
-      //   setEmail(user.email);
       setFirstName(user.first_name);
       setLastName(user.last_name);
       setBio(user.bio);
@@ -55,12 +62,12 @@ const UserProfileForm = () => {
       email: user.email,
       first_name: firstName,
       last_name: lastName,
-      bio: bio
+      bio: bio,
     };
     const result = await dispatch(updateUserThunk(updatedUser, userId));
     if (result.errors) {
       setErrors(result.errors);
-      console.log(result.errors)
+      console.log(result.errors);
     } else {
       if (image) {
         setImageLoading(true);
@@ -71,7 +78,7 @@ const UserProfileForm = () => {
           navigate(`/users/${result}`);
         }
       }
-      console.log("navigating")
+      console.log("navigating");
       navigate(`/users/${userId}`);
     }
   };
@@ -113,6 +120,7 @@ const UserProfileForm = () => {
 
   const confirmDelete = () => {
     dispatch(deleteUserThunk(userId));
+    dispatch(thunkLogout());
     navigate("/");
   };
 
@@ -129,9 +137,14 @@ const UserProfileForm = () => {
       <h2>Update Profile</h2>
       <form onSubmit={handleSubmit} className="user-profile-form">
         <div className="form-group">
-          <label htmlFor="first_name" className="create-route-label">
-            First Name
-          </label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="first_name" className="create-route-label">
+              First Name
+            </label>
+            {errors.first_name && (
+              <span className="error">{errors.first_name}</span>
+            )}
+          </div>
           <input
             type="text"
             id="first_name"
@@ -139,14 +152,16 @@ const UserProfileForm = () => {
             onChange={(e) => setFirstName(e.target.value)}
             className="create-route-input"
           />
-          {errors.first_name && (
-            <span className="error">{errors.first_name}</span>
-          )}
         </div>
         <div className="form-group">
-          <label htmlFor="last_name" className="create-route-label">
-            Last Name
-          </label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="last_name" className="create-route-label">
+              Last Name
+            </label>
+            {errors.last_name && (
+              <span className="error">{errors.last_name}</span>
+            )}
+          </div>
           <input
             type="text"
             id="last_name"
@@ -154,21 +169,20 @@ const UserProfileForm = () => {
             onChange={(e) => setLastName(e.target.value)}
             className="create-route-input"
           />
-          {errors.last_name && (
-            <span className="error">{errors.last_name}</span>
-          )}
         </div>
         <div className="form-group">
-          <label htmlFor="bio" className="create-route-label">
-            Bio
-          </label>
+          <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+            <label htmlFor="bio" className="create-route-label">
+              Bio
+            </label>
+            {errors.bio && <span className="error">{errors.bio}</span>}
+          </div>
           <textarea
             id="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             className="create-route-input"
           />
-          {errors.bio && <span className="error">{errors.bio}</span>}
         </div>
         <div className="photo-div">
           <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
@@ -199,7 +213,7 @@ const UserProfileForm = () => {
           )}
           {imageLoading && <p>Loading...</p>}
         </div>
-        <button type="submit">Update Profile</button>
+        <button type="submit" disabled={Object.keys(errors).length > 0}>Update Profile</button>
         <button type="button" onClick={handleDelete} className="delete-button">
           Delete Profile
         </button>
