@@ -4,6 +4,7 @@ from .routes import seed_routes, undo_routes
 from .route_pictures import seed_route_pictures, undo_route_pictures
 from .ascents import seed_ascents, undo_ascents
 from .ascent_pictures import seed_ascent_pictures, undo_ascent_pictures
+from .climbing_areas import seed_climbing_areas, undo_climbing_areas
 
 from app.models.db import db, environment, SCHEMA
 
@@ -22,6 +23,7 @@ def seed():
         # Make sure to add all your other model's undo functions below
         undo_users()
     seed_users()
+    seed_climbing_areas()
     seed_routes()
     seed_route_pictures()
     seed_ascents()
@@ -36,5 +38,6 @@ def undo():
     undo_ascents()
     undo_route_pictures()
     undo_routes()
+    undo_climbing_areas()
     undo_users()
     # Add other undo functions here
